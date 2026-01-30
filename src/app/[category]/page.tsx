@@ -61,7 +61,7 @@ export default async function CategoryPage({ params }: PageProps) {
                         </div>
 
                         {series.Description && (
-                            <p className="text-xs text-white/50 leading-loose max-w-2xl font-mono">
+                            <p className="text-xs text-white/50 leading-loose max-w-2xl font-mono hidden md:block">
                                 {series.Description}
                             </p>
                         )}

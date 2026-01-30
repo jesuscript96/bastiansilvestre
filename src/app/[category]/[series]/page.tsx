@@ -35,7 +35,7 @@ export default async function SeriesPage({ params }: PageProps) {
             />
             <header className="pb-4">
                 <h1 className="text-3xl font-light uppercase tracking-widest">{series.Name}</h1>
-                {series.Description && <p className="text-white/60 mt-2 max-w-xl">{series.Description}</p>}
+                {series.Description && <p className="text-white/60 mt-2 max-w-xl hidden md:block">{series.Description}</p>}
             </header>
 
             <div className="columns-1 md:columns-2 lg:columns-4 gap-6 space-y-6">

@@ -68,6 +68,22 @@ export default async function WorkPage({ params }: PageProps) {
                 ) : (
                     <div className="text-white/30 text-center mt-20">Image not available</div>
                 )}
+
+                {/* Mobile Info Overlay */}
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 block md:hidden text-right pointer-events-none max-w-[40%]">
+                    <div className="space-y-4">
+                        <div>
+                            <span className="text-white italic block text-sm">{work.Title}</span>
+                            {work.Year && <span className="text-white text-xs block">{work.Year}</span>}
+                        </div>
+
+                        <div className="flex flex-col gap-1 text-zinc-400 text-xs font-mono">
+                            {work.Material && <p>{work.Material}</p>}
+                            {work.Size && <p>{work.Size}</p>}
+                            {work.Edition && <p>{work.Edition}</p>}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

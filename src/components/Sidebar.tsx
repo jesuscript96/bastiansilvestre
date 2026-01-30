@@ -30,7 +30,7 @@ export default function Sidebar({ categories, series }: SidebarProps) {
             </button>
 
             <aside className={`
-        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between p-8 transition-transform duration-300 md:pt-12
+        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between p-8 transition-transform duration-300 pt-28 md:pt-12
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:h-full
       `}>
@@ -43,6 +43,7 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                                 {/* Category Link */}
                                 <Link
                                     href={`/${cat.Slug}`}
+                                    onClick={() => setIsOpen(false)}
                                     className="block uppercase text-xs font-bold tracking-widest text-white hover:text-white/60 transition-colors"
                                 >
                                     {cat.Name}
@@ -56,6 +57,7 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                                             <li key={s.id}>
                                                 <Link
                                                     href={href}
+                                                    onClick={() => setIsOpen(false)}
                                                     className={`block text-xs uppercase tracking-wide transition-colors ${isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
                                                 >
                                                     {s.Name}
@@ -69,12 +71,12 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                     </nav>
 
                     <nav className="space-y-4">
-                        <Link href="/about" className="block text-sm uppercase hover:text-white/60 tracking-widest">About</Link>
+                        <Link href="/about" onClick={() => setIsOpen(false)} className="block text-sm uppercase hover:text-white/60 tracking-widest">About</Link>
                         {/* Contact removed */}
                     </nav>
                 </div>
 
-                <div className="mt-auto pt-12 text-xs leading-relaxed text-zinc-400 font-mono min-h-[150px]">
+                <div className="mt-auto pt-12 text-xs leading-relaxed text-zinc-400 font-mono min-h-[150px] hidden md:block">
                     {sidebarMode === 'work' && workDetail && (
                         <div className="space-y-4 animate-fade-in">
                             <div>
