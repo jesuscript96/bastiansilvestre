@@ -49,7 +49,7 @@ export default async function WorkPage({ params }: PageProps) {
         <div className="h-full flex flex-col items-center justify-center min-h-[50vh]">
             <WorkDetailClient data={workDetailData} />
 
-            <div className="relative w-full h-[85vh] group">
+            <div className="relative w-full h-[60vh] md:h-[85vh] group">
                 {work.Detail_Image || work.Primary_Image ? (
                     <Link href={nextWorkUrl} className="block w-full h-full cursor-e-resize relative">
                         <Image
@@ -68,20 +68,21 @@ export default async function WorkPage({ params }: PageProps) {
                 ) : (
                     <div className="text-white/30 text-center mt-20">Image not available</div>
                 )}
+            </div>
 
-                {/* Mobile Info Overlay */}
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 block md:hidden text-right pointer-events-none max-w-[40%]">
-                    <div className="space-y-4">
-                        <div>
-                            <span className="text-white italic block text-sm">{work.Title}</span>
-                            {work.Year && <span className="text-white text-xs block">{work.Year}</span>}
-                        </div>
+            {/* Mobile Info Overlay - Moved to relative block below image */}
+            <div className="block md:hidden w-full bg-black p-6 text-left">
+                <div className="space-y-4">
+                    <div>
+                        <span className="text-white italic block text-xl">{work.Title}</span>
+                        {work.Year && <span className="text-white/60 text-sm block">{work.Year}</span>}
+                    </div>
 
-                        <div className="flex flex-col gap-1 text-zinc-400 text-xs font-mono">
-                            {work.Material && <p>{work.Material}</p>}
-                            {work.Size && <p>{work.Size}</p>}
-                            {work.Edition && <p>{work.Edition}</p>}
-                        </div>
+                    <div className="flex flex-col gap-1 text-zinc-400 text-sm font-mono">
+                        {work.Material && <p>{work.Material}</p>}
+                        {work.Size && <p>{work.Size}</p>}
+                        {work.Collection && <p>{work.Collection}</p>}
+                        {work.Edition && <p>{work.Edition}</p>}
                     </div>
                 </div>
             </div>
