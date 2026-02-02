@@ -4,12 +4,12 @@ import GenericInfoUpdater from '@/components/GenericInfoUpdater';
 export default function AboutPage() {
     return (
         <div className="flex flex-col gap-20 pb-20">
-            <GenericInfoUpdater
+            {/* <GenericInfoUpdater
                 data={{
                     title: "About & Contact",
                     description: "Bastian Silvestre is a minimalist artist based in Mexico City, focusing on sculpture and the themes of decay and nostalgia."
                 }}
-            />
+            /> */}
 
             {/* Top Row: Photo & About/Contact */}
             <div className="flex flex-col md:flex-row gap-12">
@@ -27,7 +27,7 @@ export default function AboutPage() {
                 {/* Right: Content */}
                 <div className="w-full md:w-1/2 flex flex-col">
                     <div className="space-y-8">
-                        <h1 className="text-4xl font-light tracking-tighter">Bastian Silvestre (b. Miami, 1997)</h1>
+                        <h1 className="text-4xl font-light tracking-tighter">Bastian Silvestre (b. Habana, 1997)</h1>
 
                         <div className="space-y-6 text-neutral-400 leading-relaxed max-w-lg">
                             <p>

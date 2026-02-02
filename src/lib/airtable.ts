@@ -36,6 +36,8 @@ export interface Work {
     Status?: string;
     Primary_Image?: string;
     Detail_Image?: string;
+    Detail_Image_2?: string;
+    Context_Image?: string;
     Feature?: boolean;
     Series?: string[];
     Edition?: string;
@@ -79,6 +81,8 @@ const mapWork = (record: any): Work => ({
     Status: record.fields.Estado,
     Primary_Image: record.fields.Primary_Image,
     Detail_Image: record.fields.Detail_Image,
+    Detail_Image_2: record.fields.Detail_Image_2,
+    Context_Image: record.fields.Context_Image,
     Feature: record.fields.Feature,
     Series: record.fields.Series,
     Edition: record.fields.Edition,
@@ -138,6 +142,13 @@ export const getSeriesByCategory = async (categoryName: string) => {
 export const getWorkById = async (id: string) => {
     const record = await base(TABLE_IDS.WORKS).find(id);
     return mapWork(record);
+};
+
+export const getWorks = async () => {
+    const records = await base(TABLE_IDS.WORKS).select({
+        view: 'Grid view',
+    }).all();
+    return records.map(mapWork);
 };
 
 export const getWorkBySlug = async () => {

@@ -2,6 +2,7 @@ import { getWorkById, getSeriesBySlug, getSeriesWorks } from '@/lib/airtable';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ImageGallery from './ImageGallery';
 import WorkDetailClient from './WorkDetailClient'; // Client component to update context
 
 interface PageProps {
@@ -33,6 +34,22 @@ export default async function WorkPage({ params }: PageProps) {
 
     const nextWorkUrl = nextWork ? `/${category}/${seriesSlug}/${nextWork.id}` : '#';
 
+    // Primary image is the default
+    const primaryImage = work.Primary_Image || work.Detail_Image || '';
+
+    // Secondary images (thumbnails) - max 3, excluding the one used as primary
+    const allDetailImages = [
+        work.Detail_Image,
+        work.Detail_Image_2,
+        work.Context_Image,
+        work.Primary_Image
+    ].filter((img): img is string => !!img);
+
+    // Filter out the primary image from the thumbnails and limit to 3
+    const secondaryImages = allDetailImages
+        .filter(img => img !== primaryImage)
+        .slice(0, 3);
+
     // Transform for Context
     const workDetailData = {
         title: work.Title,
@@ -46,28 +63,16 @@ export default async function WorkPage({ params }: PageProps) {
     };
 
     return (
-        <div className="h-full flex flex-col items-center justify-center min-h-[50vh]">
+        <div className="h-full flex flex-col items-center justify-center min-h-[50vh] py-10">
             <WorkDetailClient data={workDetailData} />
 
-            <div className="relative w-full h-[60vh] md:h-[85vh] group">
-                {work.Detail_Image || work.Primary_Image ? (
-                    <Link href={nextWorkUrl} className="block w-full h-full cursor-e-resize relative">
-                        <Image
-                            src={(work.Detail_Image || work.Primary_Image) as string}
-                            alt={work.Title || 'Detail'}
-                            fill
-                            className="object-contain"
-                            priority
-                            quality={90}
-                        />
-                        {/* Optional Next Indicator on Hover */}
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none">
-                            &rsaquo;
-                        </div>
-                    </Link>
-                ) : (
-                    <div className="text-white/30 text-center mt-20">Image not available</div>
-                )}
+            <div className="w-full">
+                <ImageGallery
+                    primaryImage={primaryImage}
+                    secondaryImages={secondaryImages}
+                    title={work.Title}
+                    nextWorkUrl={nextWorkUrl}
+                />
             </div>
 
             {/* Mobile Info Overlay - Moved to relative block below image */}

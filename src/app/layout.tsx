@@ -30,13 +30,13 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased overflow-hidden h-screen flex flex-col md:flex-row pt-20 md:pt-24">
+      <body className="bg-black text-white antialiased overflow-hidden h-screen flex flex-col md:flex-row">
         <LayoutProvider>
           <Header />
 
           <Sidebar categories={categories} series={series} />
 
-          <main className="flex-1 overflow-y-auto h-full relative px-4 md:px-12 w-full pt-10">
+          <main className="flex-1 overflow-y-auto h-full relative px-4 md:px-12 w-full pt-32 scroll-smooth">
             <div className="max-w-7xl mx-auto min-h-screen">
               {children}
             </div>

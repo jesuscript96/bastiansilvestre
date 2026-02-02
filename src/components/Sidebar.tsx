@@ -42,44 +42,31 @@ export default function Sidebar({ categories, series }: SidebarProps) {
             </button>
 
             <aside className={`
-        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between p-8 transition-transform duration-300 pt-28 md:pt-12
+        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between p-8 transition-transform duration-300 pt-24 md:pt-32
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:h-full
       `}>
                 {/* Top: Navigation */}
                 <div className="space-y-12">
 
-                    <nav className="space-y-8">
-                        {categories.map(cat => (
-                            <div key={cat.id} className="space-y-3">
-                                {/* Category Link */}
-                                <Link
-                                    href={`/${cat.Slug}`}
-                                    onClick={() => setIsOpen(false)}
-                                    className="block uppercase text-xs font-bold tracking-widest text-white hover:text-white/60 transition-colors"
-                                >
-                                    {cat.Name}
-                                </Link>
-
-                                <ul className="space-y-2">
-                                    {getSeriesForCategory(cat.id).map(s => {
-                                        const href = `/${cat.Slug}/${s.Slug}`;
-                                        const isActive = pathname?.startsWith(href);
-                                        return (
-                                            <li key={s.id}>
-                                                <Link
-                                                    href={href}
-                                                    onClick={() => setIsOpen(false)}
-                                                    className={`block text-xs uppercase tracking-wide transition-colors ${isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
-                                                >
-                                                    {s.Name}
-                                                </Link>
-                                            </li>
-                                        )
-                                    })}
-                                </ul>
-                            </div>
-                        ))}
+                    <nav className="space-y-4">
+                        <ul className="space-y-2">
+                            {series.map(s => {
+                                const href = `/#${s.Slug}`;
+                                const isActive = pathname === '/' && typeof window !== 'undefined' && window.location.hash === `#${s.Slug}`;
+                                return (
+                                    <li key={s.id}>
+                                        <Link
+                                            href={href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={`block text-xs uppercase tracking-widest transition-colors ${isActive ? 'text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+                                        >
+                                            {s.Name}
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
                     </nav>
 
                     <nav className="space-y-4">
