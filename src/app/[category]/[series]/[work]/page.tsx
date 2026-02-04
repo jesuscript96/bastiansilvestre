@@ -27,12 +27,16 @@ export default async function WorkPage({ params }: PageProps) {
     const seriesData = await getSeriesBySlug(seriesSlug);
     const worksValues = seriesData ? await getSeriesWorks(seriesData.Name) : [];
 
-    // Find current index and next work
+    // Find current index, next work, and previous work
     const currentIndex = worksValues.findIndex(w => w.id === workId);
     const nextIndex = currentIndex !== -1 ? (currentIndex + 1) % worksValues.length : 0;
+    const prevIndex = currentIndex !== -1 ? (currentIndex - 1 + worksValues.length) % worksValues.length : 0;
+
     const nextWork = worksValues[nextIndex];
+    const prevWork = worksValues[prevIndex];
 
     const nextWorkUrl = nextWork ? `/${category}/${seriesSlug}/${nextWork.id}` : '#';
+    const prevWorkUrl = prevWork ? `/${category}/${seriesSlug}/${prevWork.id}` : '#';
 
     // Primary image is the default
     const primaryImage = work.Primary_Image || work.Detail_Image || '';
@@ -72,6 +76,7 @@ export default async function WorkPage({ params }: PageProps) {
                     secondaryImages={secondaryImages}
                     title={work.Title}
                     nextWorkUrl={nextWorkUrl}
+                    prevWorkUrl={prevWorkUrl}
                 />
             </div>
 

@@ -36,7 +36,7 @@ export default async function RootLayout({
 
           <Sidebar categories={categories} series={series} />
 
-          <main className="flex-1 overflow-y-auto h-full relative px-4 md:px-12 w-full pt-32 scroll-smooth">
+          <main className="flex-1 overflow-y-auto h-full relative md:px-12 w-full pt-20 md:pt-32 scroll-smooth snap-y snap-mandatory">
             <div className="max-w-7xl mx-auto min-h-screen">
               {children}
             </div>

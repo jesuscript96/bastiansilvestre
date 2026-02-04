@@ -53,7 +53,8 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                         <ul className="space-y-2">
                             {series.map(s => {
                                 const href = `/#${s.Slug}`;
-                                const isActive = pathname === '/' && typeof window !== 'undefined' && window.location.hash === `#${s.Slug}`;
+                                // We'll use a simple check for active state based on hash
+                                const isActive = typeof window !== 'undefined' && window.location.hash === `#${s.Slug}`;
                                 return (
                                     <li key={s.id}>
                                         <Link
@@ -70,28 +71,26 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                     </nav>
 
                     <nav className="space-y-4">
-                        <Link href="/about" onClick={() => setIsOpen(false)} className="block text-sm uppercase hover:text-white/60 tracking-widest">About</Link>
-                        {/* Contact removed */}
+                        <Link href="/about" onClick={() => setIsOpen(false)} className="block text-sm uppercase hover:text-white/60 tracking-widest text-zinc-500">About</Link>
                     </nav>
                 </div>
 
-                <div className="mt-auto pt-12 text-xs leading-relaxed text-zinc-400 font-mono min-h-[150px] hidden md:block">
-                    {sidebarMode === 'work' && workDetail && (
+                <div className="mt-auto pt-12 text-xs leading-relaxed text-zinc-400 font-mono min-h-[180px] hidden md:block border-t border-zinc-900">
+                    {sidebarMode === 'work' && workDetail ? (
                         <div className="space-y-4 animate-fade-in">
                             <div>
-                                <span className="text-white italic">{workDetail.title}</span>
-                                {workDetail.year && <span className="text-white">, {workDetail.year}</span>}
+                                <span className="text-white italic block text-base leading-tight mb-1">{workDetail.title}</span>
+                                {workDetail.year && <span className="text-zinc-500 text-sm">{workDetail.year}</span>}
                             </div>
 
-                            <div className="flex flex-col gap-1 text-zinc-400">
+                            <div className="flex flex-col gap-1 text-zinc-400 text-[11px] uppercase tracking-wider">
                                 {workDetail.material && <p>{workDetail.material}</p>}
                                 {workDetail.size && <p>{workDetail.size}</p>}
                                 {workDetail.edition && <p>{workDetail.edition}</p>}
+                                {workDetail.collection && <p>{workDetail.collection}</p>}
                             </div>
                         </div>
-                    )}
-
-                    {sidebarMode === 'generic' && genericInfo && (
+                    ) : genericInfo && (
                         <div className="space-y-4 animate-fade-in">
                             <h4 className="text-white uppercase tracking-wider">{genericInfo.title}</h4>
                             {genericInfo.description && <p className="opacity-80 max-w-[90%]">{genericInfo.description}</p>}
