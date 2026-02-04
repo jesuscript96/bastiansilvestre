@@ -66,7 +66,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId }: WorkSe
         <section
             ref={sectionRef}
             id={id || `work-${work.id}`}
-            className="min-h-screen flex flex-col items-center justify-center py-20"
+            className="min-h-0 md:min-h-screen flex flex-col items-center justify-center py-10 md:py-20"
         >
             <div className="w-full">
                 <ImageGallery
@@ -79,7 +79,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId }: WorkSe
             </div>
 
             {/* Mobile Info Overlay */}
-            <div className="block md:hidden w-full bg-black p-6 text-left mt-8">
+            <div className="block md:hidden w-full bg-black p-6 text-left mt-2">
                 <div className="space-y-4">
                     <div>
                         <span className="text-white italic block text-xl">{work.Title}</span>

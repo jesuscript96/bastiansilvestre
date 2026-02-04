@@ -37,13 +37,13 @@ export default function ImageGallery({ primaryImage, secondaryImages, title, nex
             {/* Main Image Container */}
             <div
                 ref={containerRef}
-                className="relative w-full h-[60vh] md:h-[80vh] group overflow-hidden cursor-none"
+                className="relative w-full h-auto md:h-[80vh] group overflow-hidden cursor-none"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setShowMagnifier(true)}
                 onMouseLeave={() => setShowMagnifier(false)}
             >
                 {/* The Image */}
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full md:block hidden">
                     <Image
                         src={currentImage}
                         alt={`${title}`}
@@ -51,6 +51,15 @@ export default function ImageGallery({ primaryImage, secondaryImages, title, nex
                         className="object-contain"
                         priority
                         quality={90}
+                    />
+                </div>
+
+                {/* Mobile Image (Visible only on small screens) */}
+                <div className="md:hidden block w-full">
+                    <img
+                        src={currentImage}
+                        alt={`${title}`}
+                        className="w-full h-auto block"
                     />
                 </div>
 
