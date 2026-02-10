@@ -66,7 +66,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId }: WorkSe
         <section
             ref={sectionRef}
             id={id || `work-${work.id}`}
-            className="min-h-0 md:min-h-screen flex flex-col items-center justify-center py-10 md:py-20"
+            className="min-h-0 md:min-h-screen flex flex-col items-center justify-center pt-0 pb-10 md:py-20"
         >
             <div className="w-full">
                 <ImageGallery

@@ -13,6 +13,7 @@ interface ImageGalleryProps {
 }
 
 export default function ImageGallery({ primaryImage, secondaryImages, title, nextWorkUrl, prevWorkUrl }: ImageGalleryProps) {
+    const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
     const [showMagnifier, setShowMagnifier] = useState(false);
@@ -96,14 +97,13 @@ export default function ImageGallery({ primaryImage, secondaryImages, title, nex
             </div>
 
             {/* Thumbnails Row */}
-            {secondaryImages.length > 0 && (
+            {allImages.length > 1 && (
                 <div className="flex flex-wrap justify-center gap-2 md:gap-4 px-4 pb-4 md:pb-8">
-                    {secondaryImages.map((img: string, index: number) => (
+                    {allImages.filter(img => img !== currentImage).map((img: string, index: number) => (
                         <button
                             key={index}
                             onClick={() => setCurrentImage(img)}
-                            className={`relative w-16 h-16 md:w-32 md:h-32 border-[1px] md:border-2 transition-all overflow-hidden ${currentImage === img ? 'border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-80'
-                                }`}
+                            className="relative w-16 h-16 md:w-32 md:h-32 border-[1px] md:border-2 transition-all overflow-hidden border-transparent opacity-40 hover:opacity-80"
                         >
                             <Image
                                 src={img}

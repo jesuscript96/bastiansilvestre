@@ -67,7 +67,7 @@ export default async function WorkPage({ params }: PageProps) {
     };
 
     return (
-        <div className="h-full flex flex-col items-center justify-center min-h-[50vh] py-10">
+        <div className="h-full flex flex-col items-center justify-center min-h-[50vh] pt-0 pb-10 md:py-10">
             <WorkDetailClient data={workDetailData} />
 
             <div className="w-full">
