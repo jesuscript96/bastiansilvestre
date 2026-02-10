@@ -6,7 +6,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_TOKEN }).base(
 
 const TABLE_IDS = {
     CATEGORIES: 'tblDX1ItN2REkeLLf',
-    SERIES: 'tbljnJFwgOc2X0Dg4',
+    BODY_OF_WORKS: 'tbljnJFwgOc2X0Dg4',
     WORKS: 'tblQyfUdWKtZOS9qA',
 };
 
@@ -14,21 +14,22 @@ export interface Category {
     id: string;
     Name: string;
     Slug: string;
-    Series?: string[];
+    BodyOfWorks?: string[];
 }
 
-export interface Series {
+export interface BodyOfWork {
     id: string;
     Name: string;
     Slug: string;
     Description?: string;
     Category?: string[];
+    isSerie: boolean;
 }
 
 export interface Work {
     id: string;
     Title: string;
-    Series_Name?: string[];
+    BodyOfWork_Name?: string;
     Year?: string;
     Material?: string;
     Size?: string;
@@ -39,7 +40,7 @@ export interface Work {
     Detail_Image_2?: string;
     Context_Image?: string;
     Feature?: boolean;
-    Series?: string[];
+    BodyOfWork?: string[];
     Edition?: string;
 }
 
@@ -57,23 +58,24 @@ const mapCategory = (record: any): Category => ({
     id: record.id,
     Name: record.fields.Name || 'Untitled',
     Slug: record.fields.Slug || slugify(record.fields.Name || ''),
-    Series: record.fields.SERIES,
+    BodyOfWorks: record.fields.BODY,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mapSeries = (record: any): Series => ({
+const mapBodyOfWork = (record: any): BodyOfWork => ({
     id: record.id,
-    Name: record.fields.Name_Series || record.fields.Name || 'Untitled Series',
+    Name: record.fields.Name_Series || record.fields.Name || 'Untitled Body of Work',
     Slug: record.fields.Slug || slugify(record.fields.Name_Series || record.fields.Name || ''),
     Description: record.fields.Description_Series || record.fields.Description,
     Category: record.fields.Category,
+    isSerie: record.fields.IS_SERIE === true,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mapWork = (record: any): Work => ({
     id: record.id,
     Title: record.fields.Title || 'Untitled',
-    Series_Name: record.fields['Name_Series (from Series)'] ? (Array.isArray(record.fields['Name_Series (from Series)']) ? record.fields['Name_Series (from Series)'][0] : record.fields['Name_Series (from Series)']) : '',
+    BodyOfWork_Name: record.fields['Name_Body (from body)'] ? (Array.isArray(record.fields['Name_Body (from body)']) ? record.fields['Name_Body (from body)'][0] : record.fields['Name_Body (from body)']) : '',
     Year: record.fields.year,
     Material: record.fields.material,
     Size: record.fields.Size,
@@ -84,7 +86,7 @@ const mapWork = (record: any): Work => ({
     Detail_Image_2: record.fields.Detail_Image_2,
     Context_Image: record.fields.Context_Image,
     Feature: record.fields.Feature,
-    Series: record.fields.Series,
+    BodyOfWork: record.fields.BODY,
     Edition: record.fields.Edition,
 });
 
@@ -95,11 +97,11 @@ export const getCategories = async () => {
     return records.map(mapCategory);
 };
 
-export const getSeries = async () => {
-    const records = await base(TABLE_IDS.SERIES).select({
+export const getBodyOfWorks = async () => {
+    const records = await base(TABLE_IDS.BODY_OF_WORKS).select({
         view: 'Grid view',
     }).all();
-    return records.map(mapSeries);
+    return records.map(mapBodyOfWork);
 };
 
 export const getFeaturedWorks = async () => {
@@ -109,10 +111,10 @@ export const getFeaturedWorks = async () => {
     return records.map(mapWork);
 };
 
-export const getSeriesWorks = async (seriesName: string) => {
-    // Query WORKS where 'Series' link matches the name
+export const getBodyOfWorkWorks = async (bodyOfWorkName: string) => {
+    // Query WORKS where 'BODY' link matches the name
     const records = await base(TABLE_IDS.WORKS).select({
-        filterByFormula: `{Series} = '${seriesName}'`,
+        filterByFormula: `{BODY} = '${bodyOfWorkName}'`,
     }).all();
     return records.map(mapWork);
 };
@@ -126,17 +128,17 @@ export const getCategoryBySlug = async (slug: string) => {
     return mapCategory(records[0]);
 };
 
-export const getSeriesBySlug = async (slug: string) => {
-    const allSeries = await getSeries();
-    return allSeries.find(s => s.Slug === slug) || null;
+export const getBodyOfWorkBySlug = async (slug: string) => {
+    const allBodyOfWorks = await getBodyOfWorks();
+    return allBodyOfWorks.find(s => s.Slug === slug) || null;
 };
 
-export const getSeriesByCategory = async (categoryName: string) => {
-    // Query SERIES where 'Category' link matches the name
-    const records = await base(TABLE_IDS.SERIES).select({
+export const getBodyOfWorksByCategory = async (categoryName: string) => {
+    // Query BODY_OF_WORKS where 'Category' link matches the name
+    const records = await base(TABLE_IDS.BODY_OF_WORKS).select({
         filterByFormula: `{Category} = '${categoryName}'`,
     }).all();
-    return records.map(mapSeries);
+    return records.map(mapBodyOfWork);
 };
 
 export const getWorkById = async (id: string) => {

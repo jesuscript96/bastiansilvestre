@@ -10,15 +10,16 @@ interface WorkSectionProps {
     id?: string;
     nextWorkId?: string;
     prevWorkId?: string;
+    isSeriePart?: boolean;
 }
 
-export default function WorkSection({ work, id, nextWorkId, prevWorkId }: WorkSectionProps) {
+export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSeriePart }: WorkSectionProps) {
     const { setWorkDetail } = useLayoutContext();
     const sectionRef = useRef<HTMLDivElement>(null);
 
     const workDetailData: WorkDetail = {
         title: work.Title,
-        seriesName: work.Series_Name ? work.Series_Name[0] : '',
+        bodyOfWorkName: work.BodyOfWork_Name || '',
         year: work.Year,
         material: work.Material,
         size: work.Size,
@@ -75,6 +76,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId }: WorkSe
                     title={work.Title}
                     nextWorkUrl={nextWorkId ? `#work-${nextWorkId}` : '#'}
                     prevWorkUrl={prevWorkId ? `#work-${prevWorkId}` : '#'}
+                    showNavigation={!isSeriePart}
                 />
             </div>
 

@@ -3,7 +3,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { LayoutProvider } from '@/context/LayoutContext';
-import { getCategories, getSeries, Category, Series } from '@/lib/airtable';
+import { getCategories, getBodyOfWorks, Category, BodyOfWork } from '@/lib/airtable';
 
 export const metadata: Metadata = {
   title: 'Bastian Silvestre',
@@ -18,11 +18,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   let categories: Category[] = [];
-  let series: Series[] = [];
+  let bodyOfWorks: BodyOfWork[] = [];
 
   try {
     categories = await getCategories();
-    series = await getSeries();
+    bodyOfWorks = await getBodyOfWorks();
   } catch (error) {
     console.error("Failed to fetch menu data:", error);
     // Continue with empty menu to avoid crashing if airtable not configured
@@ -34,7 +34,7 @@ export default async function RootLayout({
         <LayoutProvider>
           <Header />
 
-          <Sidebar categories={categories} series={series} />
+          <Sidebar categories={categories} bodyOfWorks={bodyOfWorks} />
 
           <main className="flex-1 overflow-y-auto h-full relative md:px-12 w-full pt-0 md:pt-12 scroll-smooth">
             <div className="max-w-7xl mx-auto min-h-screen">

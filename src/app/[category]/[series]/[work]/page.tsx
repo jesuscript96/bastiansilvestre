@@ -1,4 +1,4 @@
-import { getWorkById, getSeriesBySlug, getSeriesWorks } from '@/lib/airtable';
+import { getWorkById, getBodyOfWorkBySlug, getBodyOfWorkWorks } from '@/lib/airtable';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -24,8 +24,8 @@ export default async function WorkPage({ params }: PageProps) {
         notFound();
     }
 
-    const seriesData = await getSeriesBySlug(seriesSlug);
-    const worksValues = seriesData ? await getSeriesWorks(seriesData.Name) : [];
+    const bodyOfWorkData = await getBodyOfWorkBySlug(seriesSlug);
+    const worksValues = bodyOfWorkData ? await getBodyOfWorkWorks(bodyOfWorkData.Name) : [];
 
     // Find current index, next work, and previous work
     const currentIndex = worksValues.findIndex(w => w.id === workId);
@@ -57,7 +57,7 @@ export default async function WorkPage({ params }: PageProps) {
     // Transform for Context
     const workDetailData = {
         title: work.Title,
-        seriesName: work.Series_Name ? work.Series_Name[0] : '', // Lookup returns array
+        bodyOfWorkName: work.BodyOfWork_Name || '',
         year: work.Year,
         material: work.Material,
         size: work.Size,
@@ -84,8 +84,9 @@ export default async function WorkPage({ params }: PageProps) {
             <div className="block md:hidden w-full bg-black p-6 text-left">
                 <div className="space-y-4">
                     <div>
-                        <span className="text-white italic block text-xl">{work.Title}</span>
-                        {work.Year && <span className="text-white/60 text-sm block">{work.Year}</span>}
+                        <span className="text-white/60 italic block text-xl">
+                            {work.Title}{work.Year ? `, ${work.Year}` : ''}
+                        </span>
                     </div>
 
                     <div className="flex flex-col gap-1 text-zinc-400 text-sm font-mono">

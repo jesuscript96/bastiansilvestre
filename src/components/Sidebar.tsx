@@ -4,20 +4,20 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLayoutContext } from '@/context/LayoutContext';
-import { Category, Series } from '@/lib/airtable';
+import { Category, BodyOfWork } from '@/lib/airtable';
 
 interface SidebarProps {
     categories: Category[];
-    series: Series[];
+    bodyOfWorks: BodyOfWork[];
 }
 
-export default function Sidebar({ categories, series }: SidebarProps) {
+export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
     const { workDetail, genericInfo, sidebarMode } = useLayoutContext();
     const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
 
-    const getSeriesForCategory = (catId: string) => {
-        return series.filter(s => s.Category && s.Category.includes(catId));
+    const getBodyOfWorksForCategory = (catId: string) => {
+        return bodyOfWorks.filter(s => s.Category && s.Category.includes(catId));
     };
 
     return (
@@ -51,7 +51,7 @@ export default function Sidebar({ categories, series }: SidebarProps) {
 
                     <nav className="space-y-4">
                         <ul className="space-y-2">
-                            {series.map(s => {
+                            {bodyOfWorks.map(s => {
                                 const href = `/#${s.Slug}`;
                                 // We'll use a simple check for active state based on hash
                                 const isActive = typeof window !== 'undefined' && window.location.hash === `#${s.Slug}`;
@@ -79,8 +79,9 @@ export default function Sidebar({ categories, series }: SidebarProps) {
                     {sidebarMode === 'work' && workDetail ? (
                         <div className="space-y-4 animate-fade-in">
                             <div>
-                                <span className="text-white italic block text-base leading-tight mb-1">{workDetail.title}</span>
-                                {workDetail.year && <span className="text-zinc-500 text-sm">{workDetail.year}</span>}
+                                <span className="text-zinc-500 italic block text-base leading-tight">
+                                    {workDetail.title}{workDetail.year ? `, ${workDetail.year}` : ''}
+                                </span>
                             </div>
 
                             <div className="flex flex-col gap-1 text-zinc-400 text-[11px] uppercase tracking-wider">

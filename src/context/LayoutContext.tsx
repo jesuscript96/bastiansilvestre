@@ -4,7 +4,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 
 export interface WorkDetail {
     title: string;
-    seriesName?: string;
+    bodyOfWorkName?: string;
     year?: string;
     material?: string;
     size?: string;

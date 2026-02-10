@@ -10,9 +10,17 @@ interface ImageGalleryProps {
     title: string;
     nextWorkUrl: string;
     prevWorkUrl: string;
+    showNavigation?: boolean;
 }
 
-export default function ImageGallery({ primaryImage, secondaryImages, title, nextWorkUrl, prevWorkUrl }: ImageGalleryProps) {
+export default function ImageGallery({
+    primaryImage,
+    secondaryImages,
+    title,
+    nextWorkUrl,
+    prevWorkUrl,
+    showNavigation = true
+}: ImageGalleryProps) {
     const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
@@ -44,56 +52,53 @@ export default function ImageGallery({ primaryImage, secondaryImages, title, nex
                 onMouseLeave={() => setShowMagnifier(false)}
             >
                 {/* The Image */}
-                <div className="relative w-full h-full md:block hidden">
+                <div className="relative w-full h-full md:block hidden overflow-hidden">
                     <Image
                         src={currentImage}
                         alt={`${title}`}
                         fill
-                        className="object-contain"
+                        className="object-contain transition-transform duration-200 ease-out"
+                        style={{
+                            transform: showMagnifier ? 'scale(2)' : 'scale(1)',
+                            transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
+                        }}
                         priority
                         quality={90}
                     />
                 </div>
 
                 {/* Mobile Image (Visible only on small screens) */}
-                <div className="md:hidden block w-full">
+                <div className="md:hidden block w-full max-h-[60vh] overflow-hidden">
                     <img
                         src={currentImage}
                         alt={`${title}`}
-                        className="w-full h-auto block"
+                        className="w-full h-full object-contain block mx-auto"
                     />
                 </div>
 
-                {/* Magnifier Overlay (Desktop Only) */}
-                {showMagnifier && (
-                    <div
-                        className="hidden md:block absolute pointer-events-none border-2 border-white/20 rounded-full shadow-2xl overflow-hidden z-20"
-                        style={{
-                            width: '250px',
-                            height: '250px',
-                            left: `${zoomPos.x}%`,
-                            top: `${zoomPos.y}%`,
-                            transform: 'translate(-50%, -50%)',
-                            backgroundImage: `url(${currentImage})`,
-                            backgroundPosition: `${zoomPos.x}% ${zoomPos.y}%`,
-                            backgroundSize: '400%', // 4x zoom
-                            backgroundRepeat: 'no-repeat',
-                            backgroundColor: 'black'
-                        }}
-                    />
+                {/* Navigation Links (Conditionally rendered) */}
+                {showNavigation && (
+                    <>
+                        <Link
+                            href={nextWorkUrl}
+                            className="absolute inset-x-1/2 inset-y-0 right-0 z-10 block"
+                            aria-label="Next work"
+                        />
+                        <Link
+                            href={prevWorkUrl}
+                            className="absolute inset-x-0 inset-y-0 right-1/2 z-10 block"
+                            aria-label="Previous work"
+                        />
+
+                        {/* Desktop Indicators */}
+                        <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                            &rsaquo;
+                        </div>
+                        <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                            &lsaquo;
+                        </div>
+                    </>
                 )}
-
-                {/* Link for Next Work */}
-                <Link
-                    href={nextWorkUrl}
-                    className="absolute inset-0 z-10 block"
-                    aria-label="Next work"
-                />
-
-                {/* Desktop Next Indicator on Hover */}
-                <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
-                    &rsaquo;
-                </div>
             </div>
 
             {/* Thumbnails Row */}

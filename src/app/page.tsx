@@ -1,59 +1,61 @@
-import { getWorks, getSeries, getCategories, Work, Series, Category } from '@/lib/airtable';
+import { getWorks, getBodyOfWorks, getCategories, Work, BodyOfWork, Category } from '@/lib/airtable';
 import WorkSection from '@/components/WorkSection';
+import HorizontalSeries from '@/components/HorizontalSeries';
 
 export const revalidate = 600; // ISR 10 minutes
 
 export default async function Home() {
   let allWorks: Work[] = [];
-  let allSeries: Series[] = [];
+  let allBodyOfWorks: BodyOfWork[] = [];
   let allCategories: Category[] = [];
 
   try {
-    const [fetchedAllWorks, fetchedSeries, fetchedCategories] = await Promise.all([
+    const [fetchedAllWorks, fetchedBodyOfWorks, fetchedCategories] = await Promise.all([
       getWorks(),
-      getSeries(),
+      getBodyOfWorks(),
       getCategories()
     ]);
     allWorks = fetchedAllWorks;
-    allSeries = fetchedSeries;
+    allBodyOfWorks = fetchedBodyOfWorks;
     allCategories = fetchedCategories;
   } catch (error) {
     console.error("Failed to fetch data:", error);
   }
 
-  // Create a flat list of works ordered by series and their internal order
-  // We'll iterate through series to maintain the "Body of Work" grouping
-  const orderedWorks: Work[] = [];
-  const seriesFirstWorkMap: Record<string, string> = {};
-
-  allSeries.forEach((series) => {
-    const seriesWorks = allWorks.filter(w => w.Series?.includes(series.id));
-    // Optionally sort seriesWorks by an 'Order' field if it exists in Airtable
-    if (seriesWorks.length > 0) {
-      seriesFirstWorkMap[series.Slug] = seriesWorks[0].id;
-      orderedWorks.push(...seriesWorks);
-    }
-  });
+  // Group works by body of work
+  const bodyOfWorkSections = allBodyOfWorks.map(bow => {
+    const bowWorks = allWorks.filter(w => w.BodyOfWork?.includes(bow.id));
+    return {
+      ...bow,
+      works: bowWorks
+    };
+  }).filter(section => section.works.length > 0);
 
   return (
     <div className="flex flex-col">
-      {orderedWorks.map((work, index) => {
-        const nextWork = orderedWorks[index + 1];
-        const prevWork = orderedWorks[index - 1];
+      {bodyOfWorkSections.map((section) => {
+        if (section.isSerie) {
+          // Horizontal navigation for series
+          return (
+            <HorizontalSeries
+              key={section.id}
+              works={section.works}
+              slug={section.Slug}
+            />
+          );
+        }
 
-        // Find if this is the first work of a series
-        const seriesSlug = allSeries.find(s => s.id === work.Series?.[0])?.Slug;
-        const isFirstInSeries = seriesSlug && orderedWorks.findIndex(w => w.Series?.[0] === work.Series?.[0]) === index;
-
-        return (
-          <WorkSection
-            key={work.id}
-            id={isFirstInSeries ? seriesSlug : undefined}
-            work={work}
-            nextWorkId={nextWork?.id}
-            prevWorkId={prevWork?.id}
-          />
-        );
+        // Standard vertical list for non-series
+        return section.works.map((work, index) => {
+          const isFirstInBOW = index === 0;
+          return (
+            <WorkSection
+              key={work.id}
+              id={isFirstInBOW ? section.Slug : undefined}
+              work={work}
+            />
+          );
+        });
       })}
     </div>
   );
