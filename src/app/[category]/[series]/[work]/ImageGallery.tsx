@@ -23,18 +23,46 @@ export default function ImageGallery({
 }: ImageGalleryProps) {
     const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
+    const [aspectRatio, setAspectRatio] = useState<number | null>(null);
     const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
+    const [isOverImage, setIsOverImage] = useState(false);
     const [showMagnifier, setShowMagnifier] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const handleMouseMove = (e: MouseEvent) => {
-        if (!containerRef.current) return;
+        if (!containerRef.current || !aspectRatio) return;
 
         const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-        const x = ((e.pageX - left - window.scrollX) / width) * 100;
-        const y = ((e.pageY - top - window.scrollY) / height) * 100;
 
-        setZoomPos({ x, y });
+        // Calculate image dimensions in object-contain
+        const containerRatio = width / height;
+        let imgWidth, imgHeight, imgLeft, imgTop;
+
+        if (aspectRatio > containerRatio) {
+            imgWidth = width;
+            imgHeight = width / aspectRatio;
+            imgLeft = 0;
+            imgTop = (height - imgHeight) / 2;
+        } else {
+            imgHeight = height;
+            imgWidth = height * aspectRatio;
+            imgLeft = (width - imgWidth) / 2;
+            imgTop = 0;
+        }
+
+        const mouseX = e.pageX - left - window.scrollX;
+        const mouseY = e.pageY - top - window.scrollY;
+
+        const over = mouseX >= imgLeft && mouseX <= imgLeft + imgWidth &&
+            mouseY >= imgTop && mouseY <= imgTop + imgHeight;
+
+        setIsOverImage(over);
+
+        if (over) {
+            const x = ((mouseX - imgLeft) / imgWidth) * 100;
+            const y = ((mouseY - imgTop) / imgHeight) * 100;
+            setZoomPos({ x, y });
+        }
     };
 
     if (!primaryImage && (!secondaryImages || secondaryImages.length === 0)) {
@@ -46,47 +74,53 @@ export default function ImageGallery({
             {/* Main Image Container */}
             <div
                 ref={containerRef}
-                className="relative w-full h-auto md:h-[80vh] group overflow-hidden cursor-none"
+                className={`relative w-full h-auto md:h-[80vh] group overflow-hidden ${isOverImage && showMagnifier ? 'cursor-none' : 'cursor-default'}`}
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setShowMagnifier(true)}
-                onMouseLeave={() => setShowMagnifier(false)}
+                onMouseLeave={() => {
+                    setShowMagnifier(false);
+                    setIsOverImage(false);
+                }}
             >
-                {/* The Image */}
+                {/* The Image (Desktop) */}
                 <div className="relative w-full h-full md:block hidden overflow-hidden">
                     <Image
                         src={currentImage}
                         alt={`${title}`}
                         fill
-                        className="object-contain transition-transform duration-200 ease-out"
+                        className="object-contain transition-transform duration-200 ease-out z-0"
                         style={{
-                            transform: showMagnifier ? 'scale(2)' : 'scale(1)',
+                            transform: (showMagnifier && isOverImage) ? 'scale(2)' : 'scale(1)',
                             transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
                         }}
                         priority
                         quality={90}
+                        onLoadingComplete={({ naturalWidth, naturalHeight }) => {
+                            setAspectRatio(naturalWidth / naturalHeight);
+                        }}
                     />
                 </div>
 
                 {/* Mobile Image (Visible only on small screens) */}
-                <div className="md:hidden block w-full max-h-[60vh] overflow-hidden">
+                <div className="md:hidden block w-full px-4">
                     <img
                         src={currentImage}
                         alt={`${title}`}
-                        className="w-full h-full object-contain block mx-auto"
+                        className="w-full h-auto block mx-auto"
                     />
                 </div>
 
                 {/* Navigation Links (Conditionally rendered) */}
                 {showNavigation && (
-                    <>
+                    <div className="absolute inset-0 z-10 pointer-events-none">
                         <Link
                             href={nextWorkUrl}
-                            className="absolute inset-x-1/2 inset-y-0 right-0 z-10 block"
+                            className="absolute inset-x-1/2 inset-y-0 right-0 block pointer-events-auto"
                             aria-label="Next work"
                         />
                         <Link
                             href={prevWorkUrl}
-                            className="absolute inset-x-0 inset-y-0 right-1/2 z-10 block"
+                            className="absolute inset-x-0 inset-y-0 right-1/2 block pointer-events-auto"
                             aria-label="Previous work"
                         />
 
@@ -97,7 +131,7 @@ export default function ImageGallery({
                         <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
                             &lsaquo;
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
 

@@ -58,10 +58,10 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
             <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className={`hidden md:flex absolute left-4 lg:left-12 top-1/2 -translate-y-1/2 z-50 w-20 h-20 items-center justify-center text-white/50 hover:text-white transition-all bg-black/5 hover:bg-black/20 rounded-full ${currentIndex === 0 ? 'opacity-0 cursor-default' : 'opacity-100'}`}
+                className={`hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-full ${currentIndex === 0 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
                 aria-label="Previous work"
             >
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
             </button>
@@ -69,10 +69,10 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
             <button
                 onClick={handleNext}
                 disabled={currentIndex === works.length - 1}
-                className={`hidden md:flex absolute right-4 lg:right-12 top-1/2 -translate-y-1/2 z-50 w-20 h-20 items-center justify-center text-white/50 hover:text-white transition-all bg-black/5 hover:bg-black/20 rounded-full ${currentIndex === works.length - 1 ? 'opacity-0 cursor-default' : 'opacity-100'}`}
+                className={`hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-full ${currentIndex === works.length - 1 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
                 aria-label="Next work"
             >
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
