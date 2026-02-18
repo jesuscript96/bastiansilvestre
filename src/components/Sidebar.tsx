@@ -50,6 +50,9 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
                 <div className="space-y-12">
 
                     <nav className="space-y-4">
+                        <div className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 select-none">
+                            Bodies of Work
+                        </div>
                         <ul className="space-y-2">
                             {bodyOfWorks.map(s => {
                                 const href = `/#${s.Slug}`;
