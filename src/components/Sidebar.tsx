@@ -42,7 +42,7 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
             </button>
 
             <aside className={`
-        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between p-8 transition-transform duration-300 pt-24 md:pt-32
+        fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-black flex flex-col justify-between px-6 pb-8 md:px-12 transition-transform duration-300 pt-24 md:pt-32
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0 md:static md:h-full
       `}>
@@ -50,7 +50,7 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
                 <div className="space-y-12">
 
                     <nav className="space-y-4">
-                        <div className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-4 select-none">
+                        <div className="text-sm uppercase tracking-widest text-zinc-400 mb-4 select-none">
                             Bodies of Work
                         </div>
                         <ul className="space-y-2">
