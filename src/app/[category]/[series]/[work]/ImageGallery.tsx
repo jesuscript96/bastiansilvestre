@@ -11,6 +11,7 @@ interface ImageGalleryProps {
     nextWorkUrl: string;
     prevWorkUrl: string;
     showNavigation?: boolean;
+    isSerie?: boolean;
 }
 
 export default function ImageGallery({
@@ -19,51 +20,23 @@ export default function ImageGallery({
     title,
     nextWorkUrl,
     prevWorkUrl,
-    showNavigation = true
+    showNavigation = true,
+    isSerie = false
 }: ImageGalleryProps) {
     const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
-    const [aspectRatio, setAspectRatio] = useState<number | null>(null);
-    const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
-    const [isOverImage, setIsOverImage] = useState(false);
-    const [showMagnifier, setShowMagnifier] = useState(false);
+
+    // Magnifier logic disabled as per request
+    // const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+    // const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
+    // const [isOverImage, setIsOverImage] = useState(false);
+    // const [showMagnifier, setShowMagnifier] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    const handleMouseMove = (e: MouseEvent) => {
-        if (!containerRef.current || !aspectRatio) return;
-
-        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-
-        // Calculate image dimensions in object-contain
-        const containerRatio = width / height;
-        let imgWidth, imgHeight, imgLeft, imgTop;
-
-        if (aspectRatio > containerRatio) {
-            imgWidth = width;
-            imgHeight = width / aspectRatio;
-            imgLeft = 0;
-            imgTop = (height - imgHeight) / 2;
-        } else {
-            imgHeight = height;
-            imgWidth = height * aspectRatio;
-            imgLeft = (width - imgWidth) / 2;
-            imgTop = 0;
-        }
-
-        const mouseX = e.pageX - left - window.scrollX;
-        const mouseY = e.pageY - top - window.scrollY;
-
-        const over = mouseX >= imgLeft && mouseX <= imgLeft + imgWidth &&
-            mouseY >= imgTop && mouseY <= imgTop + imgHeight;
-
-        setIsOverImage(over);
-
-        if (over) {
-            const x = ((mouseX - imgLeft) / imgWidth) * 100;
-            const y = ((mouseY - imgTop) / imgHeight) * 100;
-            setZoomPos({ x, y });
-        }
-    };
+    // const handleMouseMove = (e: MouseEvent) => {
+    //     if (!containerRef.current || !aspectRatio) return;
+    //     // ... existing logic commented out ...
+    // };
 
     if (!primaryImage && (!secondaryImages || secondaryImages.length === 0)) {
         return <div className="text-white/30 text-center mt-20">Image not available</div>;
@@ -74,13 +47,7 @@ export default function ImageGallery({
             {/* Main Image Container */}
             <div
                 ref={containerRef}
-                className={`relative w-full h-auto md:h-[80vh] group overflow-hidden ${isOverImage && showMagnifier ? 'cursor-none' : 'cursor-default'}`}
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => setShowMagnifier(true)}
-                onMouseLeave={() => {
-                    setShowMagnifier(false);
-                    setIsOverImage(false);
-                }}
+                className="relative w-full h-auto md:h-[80vh] group overflow-hidden cursor-default"
             >
                 {/* The Image (Desktop) */}
                 <div className="relative w-full h-full md:block hidden overflow-hidden">
@@ -89,15 +56,8 @@ export default function ImageGallery({
                         alt={`${title}`}
                         fill
                         className="object-contain transition-transform duration-200 ease-out z-0"
-                        style={{
-                            transform: (showMagnifier && isOverImage) ? 'scale(2)' : 'scale(1)',
-                            transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`
-                        }}
                         priority
                         quality={90}
-                        onLoadingComplete={({ naturalWidth, naturalHeight }) => {
-                            setAspectRatio(naturalWidth / naturalHeight);
-                        }}
                     />
                 </div>
 
@@ -124,11 +84,23 @@ export default function ImageGallery({
                             aria-label="Previous work"
                         />
 
-                        {/* Desktop Indicators */}
-                        <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                        {/* Desktop Indicators - Show only if isSerie */}
+                        {isSerie && (
+                            <>
+                                <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                    &rsaquo;
+                                </div>
+                                <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                    &lsaquo;
+                                </div>
+                            </>
+                        )}
+
+                        {/* Mobile Indicators - Always show on sides */}
+                        <div className="md:hidden block absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
                             &rsaquo;
                         </div>
-                        <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                        <div className="md:hidden block absolute left-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
                             &lsaquo;
                         </div>
                     </div>

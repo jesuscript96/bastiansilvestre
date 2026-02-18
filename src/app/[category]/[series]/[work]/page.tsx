@@ -77,6 +77,7 @@ export default async function WorkPage({ params }: PageProps) {
                     title={work.Title}
                     nextWorkUrl={nextWorkUrl}
                     prevWorkUrl={prevWorkUrl}
+                    isSerie={bodyOfWorkData?.isSerie ?? false}
                 />
             </div>
 

@@ -8,6 +8,17 @@ import { getCategories, getBodyOfWorks, Category, BodyOfWork } from '@/lib/airta
 export const metadata: Metadata = {
   title: 'Bastian Silvestre',
   description: 'Minimalist Artist Portfolio',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
+  icons: {
+    icon: '/iconmain.jpeg',
+    shortcut: '/iconmain.jpeg',
+    apple: '/iconmain.jpeg',
+  },
 };
 
 export const revalidate = 3600; // Revalidate every hour (ISR for layout data)
