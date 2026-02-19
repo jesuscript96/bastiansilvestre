@@ -16,7 +16,7 @@ export default function AboutPage() {
                 {/* Left: Photo (Less vertical) */}
                 <div className="w-full md:w-1/2 aspect-[4/3] relative bg-neutral-900 overflow-hidden">
                     <Image
-                        src="/about.jpeg"
+                        src="/aboutpicture.jpeg"
                         alt="Bastian Silvestre Portrait"
                         fill
                         className="object-cover transition-all duration-700"
@@ -70,26 +70,22 @@ export default function AboutPage() {
                             </div>
                         </div>
 
-                        <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest animate-pulse">
+                        {/* <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest animate-pulse">
                             Thanks for reaching!
-                        </p>
+                        </p> */}
                     </div>
                 </div>
             </div>
 
             {/* Bottom Row: Statement */}
             <div className="w-full space-y-8">
-                <h1 className="text-4xl font-light tracking-tighter uppercase">Statement</h1>
-                <div className="space-y-6 text-neutral-400 leading-relaxed ">
+                <h1 className="text-2xl font-light tracking-tighter uppercase">Statement</h1>
+                <div className="space-y-6 text-neutral-400 leading-relaxed md:w-1/2">
                     <p>
-                        My artistic practice is a continuous dialogue between the material and the ephemeral, seeking to capture the essence of what remains when the superfluous is stripped away. I am interested in the tension between structure and chaos, how order decomposes into entropy, and how, in that process, new forms of beauty emerge.
-                    </p>
+                        My work emphasizes the multiple ways in which everyday artifacts are displaced, circulated, and increasingly intermingled.</p>
                     <p>
-                        The statement continues here with more depth, exploring the philosophical underpinnings of the work. It delves into the specific methodologies employed in the studio, the rigorous process of material selection, and the intuitive decisions that guide the final form. This text serves as a manifesto, a declaration of intent, and a roadmap for the viewer to navigate the complex landscape of the exhibition.
-                    </p>
-                    <p>
-                        Ultimately, the goal is not to preserve, but to witness. To stand as an observer to the inevitable transformation of all things. In this observation, there is a quiet power, a resilience that I strive to embody in every piece. The materials speak their own language, one of endurance and fragility, and my role is simply to translate that language into a visual experience that resonates with the human condition.
-                    </p>
+                        By tending to their decay, the work wields nostalgia for worlds lost, and presents an alternative to development focused on excavating the beauty of forgotten materials. </p>
+
                 </div>
             </div>
         </div>

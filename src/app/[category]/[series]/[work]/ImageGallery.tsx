@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useRef, MouseEvent } from 'react';
+import { useState, useRef, MouseEvent, useEffect } from 'react';
 
 interface ImageGalleryProps {
     primaryImage: string;
@@ -25,6 +25,11 @@ export default function ImageGallery({
 }: ImageGalleryProps) {
     const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
+
+    // Sync state with prop if primaryImage changes (e.g. revalidation)
+    useEffect(() => {
+        setCurrentImage(primaryImage);
+    }, [primaryImage]);
 
     // Magnifier logic disabled as per request
     // const [aspectRatio, setAspectRatio] = useState<number | null>(null);
@@ -96,13 +101,17 @@ export default function ImageGallery({
                             </>
                         )}
 
-                        {/* Mobile Indicators - Always show on sides */}
-                        <div className="md:hidden block absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
-                            &rsaquo;
-                        </div>
-                        <div className="md:hidden block absolute left-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
-                            &lsaquo;
-                        </div>
+                        {/* Mobile Indicators - Show only if isSerie */}
+                        {isSerie && (
+                            <>
+                                <div className="md:hidden block absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                    &rsaquo;
+                                </div>
+                                <div className="md:hidden block absolute left-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                    &lsaquo;
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
             </div>

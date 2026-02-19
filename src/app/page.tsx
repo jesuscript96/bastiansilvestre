@@ -2,7 +2,8 @@ import { getWorks, getBodyOfWorks, getCategories, Work, BodyOfWork, Category } f
 import WorkSection from '@/components/WorkSection';
 import HorizontalSeries from '@/components/HorizontalSeries';
 
-export const revalidate = 600; // ISR 10 minutes
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function Home() {
   let allWorks: Work[] = [];

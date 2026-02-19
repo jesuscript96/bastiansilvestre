@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600; // Revalidate every hour (ISR for layout data)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function RootLayout({
   children,

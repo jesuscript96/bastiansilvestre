@@ -13,7 +13,8 @@ interface PageProps {
     }>;
 }
 
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function WorkPage({ params }: PageProps) {
     const { work: workId, series: seriesSlug, category } = await params;
