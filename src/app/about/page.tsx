@@ -16,10 +16,10 @@ export default function AboutPage() {
                 {/* Left: Photo (Less vertical) */}
                 <div className="w-full md:w-1/2 aspect-[4/3] relative bg-neutral-900 overflow-hidden">
                     <Image
-                        src="/aboutpicture.jpeg"
+                        src="/ABOUTHD.JPG"
                         alt="Bastian Silvestre Portrait"
                         fill
-                        className="object-cover transition-all duration-700"
+                        className="object-contain transition-all duration-700"
                         priority
                     />
                 </div>
