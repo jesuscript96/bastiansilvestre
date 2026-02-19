@@ -14,7 +14,7 @@ export default function AboutPage() {
             {/* Top Row: Photo & About/Contact */}
             <div className="flex flex-col md:flex-row gap-12">
                 {/* Left: Photo (Less vertical) */}
-                <div className="w-full md:w-1/2 aspect-[4/3] relative bg-neutral-900 overflow-hidden">
+                <div className="w-full md:w-1/2 aspect-[4/3] relative bg-black overflow-hidden">
                     <Image
                         src="/ABOUTHD.JPG"
                         alt="Bastian Silvestre Portrait"
