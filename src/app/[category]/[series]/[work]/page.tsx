@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ImageGallery from './ImageGallery';
-import WorkDetailClient from './WorkDetailClient'; // Client component to update context
+import WorkDetailClient from './WorkDetailClient';
 
 interface PageProps {
     params: Promise<{
@@ -28,7 +28,6 @@ export default async function WorkPage({ params }: PageProps) {
     const bodyOfWorkData = await getBodyOfWorkBySlug(seriesSlug);
     const worksValues = bodyOfWorkData ? await getBodyOfWorkWorks(bodyOfWorkData.Name) : [];
 
-    // Find current index, next work, and previous work
     const currentIndex = worksValues.findIndex(w => w.id === workId);
     const nextIndex = currentIndex !== -1 ? (currentIndex + 1) % worksValues.length : 0;
     const prevIndex = currentIndex !== -1 ? (currentIndex - 1 + worksValues.length) % worksValues.length : 0;
@@ -39,10 +38,8 @@ export default async function WorkPage({ params }: PageProps) {
     const nextWorkUrl = nextWork ? `/${category}/${seriesSlug}/${nextWork.id}` : '#';
     const prevWorkUrl = prevWork ? `/${category}/${seriesSlug}/${prevWork.id}` : '#';
 
-    // Primary image is the default
     const primaryImage = work.Primary_Image || work.Detail_Image || '';
 
-    // Secondary images (thumbnails) - max 3, excluding the one used as primary
     const allDetailImages = [
         work.Detail_Image,
         work.Detail_Image_2,
@@ -50,12 +47,10 @@ export default async function WorkPage({ params }: PageProps) {
         work.Primary_Image
     ].filter((img): img is string => !!img);
 
-    // Filter out the primary image from the thumbnails and limit to 3
     const secondaryImages = allDetailImages
         .filter(img => img !== primaryImage)
         .slice(0, 3);
 
-    // Transform for Context
     const workDetailData = {
         title: work.Title,
         bodyOfWorkName: work.BodyOfWork_Name || '',
@@ -82,16 +77,16 @@ export default async function WorkPage({ params }: PageProps) {
                 />
             </div>
 
-            {/* Mobile Info Overlay - Moved to relative block below image */}
-            <div className="block md:hidden w-full bg-black p-6 text-left">
+            {/* Mobile Info Overlay */}
+            <div className="block md:hidden w-full bg-background p-6 text-left">
                 <div className="space-y-4">
                     <div>
-                        <span className="text-white/60 italic block text-xl">
+                        <span className="text-foreground/60 italic block text-xl">
                             {work.Title}{work.Year ? `, ${work.Year}` : ''}
                         </span>
                     </div>
 
-                    <div className="flex flex-col gap-1 text-zinc-400 text-sm font-mono">
+                    <div className="flex flex-col gap-1 text-muted text-sm font-mono">
                         {work.Material && <p>{work.Material}</p>}
                         {work.Size && <p>{work.Size}</p>}
                         {work.Collection && <p>{work.Collection}</p>}

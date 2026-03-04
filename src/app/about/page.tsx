@@ -14,7 +14,7 @@ export default function AboutPage() {
             {/* Top Row: Photo & About/Contact */}
             <div className="flex flex-col md:flex-row gap-12">
                 {/* Left: Photo (Less vertical) */}
-                <div className="w-full md:w-1/2 aspect-[4/3] relative bg-black overflow-hidden">
+                <div className="w-full md:w-1/2 aspect-[4/3] relative bg-background overflow-hidden">
                     <Image
                         src="/ABOUTHD.JPG"
                         alt="Bastian Silvestre Portrait"
@@ -29,7 +29,7 @@ export default function AboutPage() {
                     <div className="space-y-8">
                         <h1 className="text-4xl font-light tracking-tighter">Bastian Silvestre (b. Habana, 1997)</h1>
 
-                        <div className="space-y-6 text-neutral-400 leading-relaxed max-w-lg">
+                        <div className="space-y-6 text-body leading-relaxed max-w-lg">
                             <p>
                                 Bastian Silvestre is a Cuban-American interdisciplinary artist. His work combines techniques of painting, sculpture, metalwork, and found-objects to form emotive, often brutalist three-dimensional assemblages which reference the natural world amidst textures of urban decay
                             </p>
@@ -42,14 +42,14 @@ export default function AboutPage() {
                         </div>
                     </div>
 
-                    {/* Contact Info - Moved here directly */}
+                    {/* Contact Info */}
                     <div className="mt-16 space-y-12">
                         <div className="space-y-4">
-                            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">Contact</h2>
+                            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-foreground/50">Contact</h2>
                             <div className="space-y-2">
                                 <a
                                     href="mailto:hello@bastiansilvestre.com"
-                                    className="block text-xl hover:text-white/60 transition-colors tracking-tight"
+                                    className="block text-xl hover:text-foreground/60 transition-colors tracking-tight"
                                 >
                                     bastian@studiosilvestre.com
                                 </a>
@@ -57,7 +57,7 @@ export default function AboutPage() {
                                     href="https://www.instagram.com/bastian_silvestre/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center gap-2 group text-xl hover:text-white/60 transition-colors tracking-tight"
+                                    className="flex items-center gap-2 group text-xl hover:text-foreground/60 transition-colors tracking-tight"
                                 >
                                     <svg
                                         className="w-5 h-5 fill-current opacity-60 group-hover:opacity-100 transition-opacity"
@@ -69,10 +69,6 @@ export default function AboutPage() {
                                 </a>
                             </div>
                         </div>
-
-                        {/* <p className="text-zinc-500 font-mono text-xs uppercase tracking-widest animate-pulse">
-                            Thanks for reaching!
-                        </p> */}
                     </div>
                 </div>
             </div>
@@ -80,7 +76,7 @@ export default function AboutPage() {
             {/* Bottom Row: Statement */}
             <div className="w-full space-y-8">
                 <h1 className="text-2xl font-light tracking-tighter uppercase">Statement</h1>
-                <div className="space-y-6 text-neutral-400 leading-relaxed md:w-1/2">
+                <div className="space-y-6 text-body leading-relaxed md:w-1/2">
                     <p>
                         My work emphasizes the multiple ways in which everyday artifacts are displaced, circulated, and increasingly intermingled.</p>
                     <p>

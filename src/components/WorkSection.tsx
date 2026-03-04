@@ -36,7 +36,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSerieP
                 }
             },
             {
-                threshold: 0.6, // Trigger when 60% of the section is visible
+                threshold: 0.6,
             }
         );
 
@@ -81,14 +81,14 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSerieP
             </div>
 
             {/* Mobile Info Overlay */}
-            <div className="block md:hidden w-full bg-black p-6 text-left mt-2">
+            <div className="block md:hidden w-full bg-background p-6 text-left mt-2">
                 <div className="space-y-4">
                     <div>
-                        <span className="text-white italic block text-xl">{work.Title}</span>
-                        {work.Year && <span className="text-white/60 text-sm block">{work.Year}</span>}
+                        <span className="text-foreground italic block text-xl">{work.Title}</span>
+                        {work.Year && <span className="text-foreground/60 text-sm block">{work.Year}</span>}
                     </div>
 
-                    <div className="flex flex-col gap-1 text-zinc-400 text-sm font-mono">
+                    <div className="flex flex-col gap-1 text-muted text-sm font-mono">
                         {work.Material && <p>{work.Material}</p>}
                         {work.Size && <p>{work.Size}</p>}
                         {work.Collection && <p>{work.Collection}</p>}

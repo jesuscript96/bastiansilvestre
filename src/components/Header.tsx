@@ -1,13 +1,16 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import ThemeToggle from './ThemeToggle';
 
 export default function Header() {
     return (
-        <header className="fixed top-0 left-0 w-screen z-50 bg-transparent flex items-center px-6 md:px-12 h-20 md:h-24">
-            {/* Logo Text */}
+        <header className="fixed top-0 left-0 w-screen z-50 bg-transparent flex items-center justify-between px-6 md:px-12 h-20 md:h-24">
             <Link href="/" className="block">
-                <span className="text-white text-lg font-light tracking-wide uppercase">Bastián Silvestre</span>
+                <span className="text-foreground text-lg font-light tracking-wide uppercase">Bastián Silvestre</span>
             </Link>
+
+            <div className="hidden md:block">
+                <ThemeToggle />
+            </div>
         </header>
     );
 }

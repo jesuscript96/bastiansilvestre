@@ -26,25 +26,14 @@ export default function ImageGallery({
     const allImages = [primaryImage, ...secondaryImages].filter(Boolean);
     const [currentImage, setCurrentImage] = useState(primaryImage);
 
-    // Sync state with prop if primaryImage changes (e.g. revalidation)
     useEffect(() => {
         setCurrentImage(primaryImage);
     }, [primaryImage]);
 
-    // Magnifier logic disabled as per request
-    // const [aspectRatio, setAspectRatio] = useState<number | null>(null);
-    // const [zoomPos, setZoomPos] = useState({ x: 0, y: 0 });
-    // const [isOverImage, setIsOverImage] = useState(false);
-    // const [showMagnifier, setShowMagnifier] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // const handleMouseMove = (e: MouseEvent) => {
-    //     if (!containerRef.current || !aspectRatio) return;
-    //     // ... existing logic commented out ...
-    // };
-
     if (!primaryImage && (!secondaryImages || secondaryImages.length === 0)) {
-        return <div className="text-white/30 text-center mt-20">Image not available</div>;
+        return <div className="text-foreground/30 text-center mt-20">Image not available</div>;
     }
 
     return (
@@ -89,25 +78,23 @@ export default function ImageGallery({
                             aria-label="Previous work"
                         />
 
-                        {/* Desktop Indicators - Show only if isSerie */}
                         {isSerie && (
                             <>
-                                <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                <div className="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-foreground/50 text-4xl font-light select-none z-30 pointer-events-none">
                                     &rsaquo;
                                 </div>
-                                <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                <div className="hidden md:block absolute left-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-foreground/50 text-4xl font-light select-none z-30 pointer-events-none">
                                     &lsaquo;
                                 </div>
                             </>
                         )}
 
-                        {/* Mobile Indicators - Show only if isSerie */}
                         {isSerie && (
                             <>
-                                <div className="md:hidden block absolute right-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                <div className="md:hidden block absolute right-2 top-1/2 -translate-y-1/2 text-foreground/50 text-4xl font-light select-none z-30 pointer-events-none">
                                     &rsaquo;
                                 </div>
-                                <div className="md:hidden block absolute left-2 top-1/2 -translate-y-1/2 text-white/50 text-4xl font-light select-none z-30 pointer-events-none">
+                                <div className="md:hidden block absolute left-2 top-1/2 -translate-y-1/2 text-foreground/50 text-4xl font-light select-none z-30 pointer-events-none">
                                     &lsaquo;
                                 </div>
                             </>

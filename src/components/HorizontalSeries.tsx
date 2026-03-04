@@ -36,7 +36,6 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
         }
     };
 
-    // Update index on manual scroll/swipe
     useEffect(() => {
         const container = scrollRef.current;
         if (!container) return;
@@ -58,7 +57,7 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
             <button
                 onClick={handlePrev}
                 disabled={currentIndex === 0}
-                className={`hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-full ${currentIndex === 0 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+                className={`hidden md:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-foreground/30 hover:text-foreground transition-all hover:bg-foreground/5 rounded-full ${currentIndex === 0 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
                 aria-label="Previous work"
             >
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -69,7 +68,7 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
             <button
                 onClick={handleNext}
                 disabled={currentIndex === works.length - 1}
-                className={`hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-white/30 hover:text-white transition-all hover:bg-white/5 rounded-full ${currentIndex === works.length - 1 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+                className={`hidden md:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[100] w-16 h-16 items-center justify-center text-foreground/30 hover:text-foreground transition-all hover:bg-foreground/5 rounded-full ${currentIndex === works.length - 1 ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
                 aria-label="Next work"
             >
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -103,7 +102,7 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
                     <button
                         onClick={handlePrev}
                         disabled={currentIndex === 0}
-                        className={`p-2 transition-colors ${currentIndex === 0 ? 'text-zinc-800' : 'text-zinc-500 hover:text-white'}`}
+                        className={`p-2 transition-colors ${currentIndex === 0 ? 'text-disabled' : 'text-muted-foreground hover:text-foreground'}`}
                         aria-label="Previous work"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -111,14 +110,14 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
                         </svg>
                     </button>
 
-                    <div className="text-[10px] font-mono tracking-widest text-zinc-500 uppercase">
+                    <div className="text-[10px] font-mono tracking-widest text-muted-foreground uppercase">
                         {currentIndex + 1} <span className="mx-2">/</span> {works.length}
                     </div>
 
                     <button
                         onClick={handleNext}
                         disabled={currentIndex === works.length - 1}
-                        className={`p-2 transition-colors ${currentIndex === works.length - 1 ? 'text-zinc-800' : 'text-zinc-500 hover:text-white'}`}
+                        className={`p-2 transition-colors ${currentIndex === works.length - 1 ? 'text-disabled' : 'text-muted-foreground hover:text-foreground'}`}
                         aria-label="Next work"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
