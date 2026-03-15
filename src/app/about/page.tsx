@@ -78,7 +78,7 @@ export default function AboutPage() {
                 <h1 className="text-2xl font-light tracking-tighter uppercase">Statement</h1>
                 <div className="space-y-6 text-body leading-relaxed md:w-1/2">
                     <p>
-                        My work emphasizes the multiple ways in which everyday artifacts are displaced, circulated, and increasingly intermingled.</p>
+                        My work emphasizes the multiple ways in which everyday artifacts are displaced, circulated and increasingly intermingled.</p>
                     <p>
                         By tending to their decay, the work wields nostalgia for worlds lost, and presents an alternative to development focused on excavating the beauty of forgotten materials. </p>
 
