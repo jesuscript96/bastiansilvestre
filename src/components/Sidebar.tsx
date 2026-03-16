@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLayoutContext } from '@/context/LayoutContext';
-import { Category, BodyOfWork } from '@/lib/airtable';
+import { Category, BodyOfWork } from '@/lib/supabase';
 import ThemeToggle from './ThemeToggle';
 
 interface SidebarProps {

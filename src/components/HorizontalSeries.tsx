@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import WorkSection from './WorkSection';
-import { Work } from '@/lib/airtable';
+import { Work } from '@/lib/supabase';
 
 interface HorizontalSeriesProps {
     works: Work[];

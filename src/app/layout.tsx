@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import Sidebar from '@/components/Sidebar';
 import { LayoutProvider } from '@/context/LayoutContext';
 import { ThemeProvider } from '@/context/ThemeContext';
-import { getCategories, getBodyOfWorks, Category, BodyOfWork } from '@/lib/airtable';
+import { getCategories, getBodyOfWorks, Category, BodyOfWork } from '@/lib/supabase';
 
 export const metadata: Metadata = {
   title: 'Bastian Silvestre',

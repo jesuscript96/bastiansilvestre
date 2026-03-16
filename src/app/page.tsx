@@ -1,4 +1,4 @@
-import { getWorks, getBodyOfWorks, getCategories, Work, BodyOfWork, Category } from '@/lib/airtable';
+import { getWorks, getBodyOfWorks, getCategories, Work, BodyOfWork, Category } from '@/lib/supabase';
 import WorkSection from '@/components/WorkSection';
 import HorizontalSeries from '@/components/HorizontalSeries';
 
@@ -25,7 +25,7 @@ export default async function Home() {
 
   // Group works by body of work
   const bodyOfWorkSections = allBodyOfWorks.map(bow => {
-    const bowWorks = allWorks.filter(w => w.BodyOfWork?.includes(bow.id));
+    const bowWorks = allWorks.filter(w => w.BodyOfWork?.includes(bow.Name));
     return {
       ...bow,
       works: bowWorks
