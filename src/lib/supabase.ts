@@ -22,6 +22,7 @@ export interface DbBodyOfWork {
     Year?: string;
     WORKS?: string;
     IS_SERIE: boolean;
+    SortNumber?: number;
 }
 
 export interface DbWork {
@@ -41,6 +42,8 @@ export interface DbWork {
     collection?: string;
     Feature?: boolean;
     Edition?: string;
+    SortNumber?: number;
+    Series_Name?: string;
 }
 
 // Maps to the structure expected by components originally from Airtable
@@ -58,6 +61,7 @@ export interface MappedBodyOfWork {
     Description?: string;
     Category?: string[];
     isSerie: boolean;
+    SortNumber?: number;
 }
 
 export interface MappedWork {
@@ -76,6 +80,8 @@ export interface MappedWork {
     Feature?: boolean;
     BodyOfWork?: string[];
     Edition?: string;
+    SortNumber?: number;
+    Series_Name?: string;
 }
 
 const slugify = (text: string) => {
@@ -102,6 +108,7 @@ const mapBodyOfWork = (record: DbBodyOfWork): MappedBodyOfWork => ({
     Description: record.Description_Series,
     Category: record.Category ? record.Category.split(',').map(s => s.trim()) : undefined,
     isSerie: record.IS_SERIE,
+    SortNumber: record.SortNumber,
 });
 
 const mapWork = (record: DbWork): MappedWork => ({
@@ -120,6 +127,8 @@ const mapWork = (record: DbWork): MappedWork => ({
     Feature: record.Feature,
     BodyOfWork: record.BODY ? record.BODY.split(',').map(s => s.trim()) : undefined,
     Edition: record.Edition,
+    SortNumber: record.SortNumber,
+    Series_Name: record.Series_Name,
 });
 
 export const getCategories = async () => {
@@ -128,17 +137,17 @@ export const getCategories = async () => {
 };
 
 export const getBodyOfWorks = async () => {
-    const { data } = await supabase.from('BodyOfWorks').select('*');
+    const { data } = await supabase.from('BodyOfWorks').select('*').order('SortNumber', { ascending: true });
     return (data || []).map(mapBodyOfWork);
 };
 
 export const getFeaturedWorks = async () => {
-    const { data } = await supabase.from('Works').select('*').eq('Feature', true);
+    const { data } = await supabase.from('Works').select('*').eq('Feature', true).order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
 export const getBodyOfWorkWorks = async (bodyOfWorkName: string) => {
-    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`);
+    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`).order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
@@ -165,7 +174,7 @@ export const getWorkById = async (id: string) => {
 };
 
 export const getWorks = async () => {
-    const { data } = await supabase.from('Works').select('*');
+    const { data } = await supabase.from('Works').select('*').order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
