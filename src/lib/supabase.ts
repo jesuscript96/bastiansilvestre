@@ -44,6 +44,7 @@ export interface DbWork {
     Edition?: string;
     SortNumber?: number;
     Series_Name?: string;
+    view_web?: boolean;
 }
 
 // Maps to the structure expected by components originally from Airtable
@@ -142,12 +143,12 @@ export const getBodyOfWorks = async () => {
 };
 
 export const getFeaturedWorks = async () => {
-    const { data } = await supabase.from('Works').select('*').eq('Feature', true).order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').eq('Feature', true).neq('view_web', false).order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
 export const getBodyOfWorkWorks = async (bodyOfWorkName: string) => {
-    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`).order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`).neq('view_web', false).order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
@@ -168,13 +169,13 @@ export const getBodyOfWorksByCategory = async (categoryName: string) => {
 };
 
 export const getWorkById = async (id: string) => {
-    const { data } = await supabase.from('Works').select('*').eq('id', id).single();
+    const { data } = await supabase.from('Works').select('*').eq('id', id).neq('view_web', false).single();
     if (!data) return null;
     return mapWork(data);
 };
 
 export const getWorks = async () => {
-    const { data } = await supabase.from('Works').select('*').order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').neq('view_web', false).order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
