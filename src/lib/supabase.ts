@@ -143,12 +143,12 @@ export const getBodyOfWorks = async () => {
 };
 
 export const getFeaturedWorks = async () => {
-    const { data } = await supabase.from('Works').select('*').eq('Feature', true).neq('view_web', false).order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').eq('Feature', true).or('view_web.eq.true,view_web.is.null').order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
 export const getBodyOfWorkWorks = async (bodyOfWorkName: string) => {
-    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`).neq('view_web', false).order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').ilike('BODY', `%${bodyOfWorkName}%`).or('view_web.eq.true,view_web.is.null').order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 
@@ -169,13 +169,13 @@ export const getBodyOfWorksByCategory = async (categoryName: string) => {
 };
 
 export const getWorkById = async (id: string) => {
-    const { data } = await supabase.from('Works').select('*').eq('id', id).neq('view_web', false).single();
+    const { data } = await supabase.from('Works').select('*').eq('id', id).or('view_web.eq.true,view_web.is.null').single();
     if (!data) return null;
     return mapWork(data);
 };
 
 export const getWorks = async () => {
-    const { data } = await supabase.from('Works').select('*').neq('view_web', false).order('SortNumber', { ascending: true });
+    const { data } = await supabase.from('Works').select('*').or('view_web.eq.true,view_web.is.null').order('SortNumber', { ascending: true });
     return (data || []).map(mapWork);
 };
 

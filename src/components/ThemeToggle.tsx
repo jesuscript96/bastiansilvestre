@@ -3,6 +3,7 @@
 import { useTheme } from '@/context/ThemeContext';
 
 export default function ThemeToggle() {
+    return null;
     const { theme, toggleTheme } = useTheme();
 
     return (
