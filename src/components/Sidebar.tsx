@@ -24,7 +24,7 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
     return (
         <>
             <button
-                className="md:hidden fixed top-6 right-6 z-50 text-accent hover:text-foreground transition-colors mix-blend-difference"
+                className="md:hidden fixed top-6 right-6 z-50 text-accent hover:text-foreground transition-colors mix-blend-difference print:hidden"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
@@ -45,7 +45,7 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
             <aside className={`
         fixed inset-y-0 left-0 z-40 w-full md:w-80 bg-background flex flex-col justify-between px-6 pb-8 md:px-12 transition-transform duration-300 pt-24 md:pt-32
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:translate-x-0 md:static md:h-full
+        md:translate-x-0 md:static md:h-full print:hidden
       `}>
                 {/* Top: Navigation */}
                 <div className="space-y-12">

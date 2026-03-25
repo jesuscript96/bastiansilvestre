@@ -56,13 +56,13 @@ export default async function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body suppressHydrationWarning className="bg-background text-foreground antialiased overflow-hidden h-screen flex flex-col md:flex-row">
+      <body suppressHydrationWarning className="bg-background text-foreground antialiased overflow-hidden h-screen flex flex-col md:flex-row print:block print:h-auto print:overflow-visible">
         <ThemeProvider>
           <LayoutProvider>
             <Header />
             <Sidebar categories={categories} bodyOfWorks={bodyOfWorks} />
-            <main className="flex-1 overflow-y-auto h-full relative md:px-12 w-full pt-0 md:pt-12 scroll-smooth">
-              <div className="max-w-7xl mx-auto min-h-screen">
+            <main className="flex-1 overflow-y-auto h-full relative md:px-12 w-full pt-0 md:pt-12 scroll-smooth print:block print:h-auto print:overflow-visible print:px-0">
+              <div className="max-w-7xl mx-auto min-h-screen print:h-auto print:min-h-0 print:max-w-none">
                 {children}
               </div>
             </main>
