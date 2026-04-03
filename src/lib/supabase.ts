@@ -36,7 +36,8 @@ export interface DbWork {
     Detail_Image_2?: string;
     Context_Image?: string;
     material?: string;
-    Size?: string;
+    'Size cm'?: string;
+    Size_inches?: string;
     year?: string;
     Estado?: string;
     collection?: string;
@@ -72,6 +73,7 @@ export interface MappedWork {
     Year?: string;
     Material?: string;
     Size?: string;
+    Size_inches?: string;
     Collection?: string;
     Status?: string;
     Primary_Image?: string;
@@ -118,7 +120,8 @@ const mapWork = (record: DbWork): MappedWork => ({
     BodyOfWork_Name: record.Name_Body_from_body || '',
     Year: record.year,
     Material: record.material,
-    Size: record.Size,
+    Size: record['Size cm'],
+    Size_inches: record.Size_inches,
     Collection: record.collection,
     Status: record.Estado,
     Primary_Image: record.Primary_Image,

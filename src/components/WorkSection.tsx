@@ -17,12 +17,28 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSerieP
     const { setWorkDetail } = useLayoutContext();
     const sectionRef = useRef<HTMLDivElement>(null);
 
+    let sizeDisplay = '';
+    if (work.Size) {
+        sizeDisplay += String(work.Size).trim();
+        if (!sizeDisplay.includes('cm') && !sizeDisplay.includes('CM')) {
+            sizeDisplay += ' cm';
+        }
+    }
+    if (work.Size_inches) {
+        if (sizeDisplay) sizeDisplay += ' / ';
+        let inchesStr = String(work.Size_inches).trim();
+        sizeDisplay += inchesStr;
+        if (!inchesStr.includes('"') && !inchesStr.includes('”') && !inchesStr.includes('“') && !inchesStr.includes('″')) {
+            sizeDisplay += ' "';
+        }
+    }
+
     const workDetailData: WorkDetail = {
         title: work.Title,
         bodyOfWorkName: work.BodyOfWork_Name || '',
         year: work.Year,
         material: work.Material,
-        size: work.Size,
+        size: sizeDisplay,
         collection: work.Collection,
         status: work.Status,
         edition: work.Edition
@@ -90,7 +106,7 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSerieP
 
                     <div className="flex flex-col gap-1 text-muted text-sm font-mono">
                         {work.Material && <p>{work.Material}</p>}
-                        {work.Size && <p>{work.Size}</p>}
+                        {sizeDisplay && <p>{sizeDisplay}</p>}
                         {work.Collection && <p>{work.Collection}</p>}
                         {work.Edition && <p>{work.Edition}</p>}
                     </div>
