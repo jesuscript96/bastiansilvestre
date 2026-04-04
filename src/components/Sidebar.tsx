@@ -92,7 +92,7 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
                                 </span>
                             </div>
 
-                            <div className="flex flex-col gap-1 text-muted text-[11px] uppercase tracking-wider">
+                            <div className="flex flex-col gap-1 text-muted text-[11px] tracking-wider">
                                 {workDetail.material && <p>{workDetail.material}</p>}
                                 {workDetail.size && <p>{workDetail.size}</p>}
                                 {workDetail.edition && <p>{workDetail.edition}</p>}
