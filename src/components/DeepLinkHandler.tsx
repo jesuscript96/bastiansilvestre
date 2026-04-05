@@ -10,30 +10,40 @@ export default function DeepLinkHandler() {
 
     useEffect(() => {
         // Detect if there's a slug after the domain (e.g., /BNS_0009_V)
-        const slug = pathname.substring(1);
+        // Trim trailing slashes and common non-slug paths
+        let slug = pathname.split('/').filter(Boolean).pop() || '';
         
         if (!slug || slug === '' || hasAttemptedScroll.current) return;
+        if (pathname.includes('/about') || pathname.includes('/portfolio-pdf')) return;
 
-        // Give Next.js time to render the DOM if it's a cold load
-        const scrollTimer = setTimeout(() => {
+        console.log(`DeepLinkHandler: detected slug "${slug}"`);
+
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const scrollAttempt = () => {
             const element = document.getElementById(slug);
 
             if (element) {
                 console.log(`Deep-linking: Scrolling to ${slug}`);
                 element.scrollIntoView({ behavior: 'smooth' });
                 hasAttemptedScroll.current = true;
+            } else if (attempts < maxAttempts) {
+                attempts++;
+                setTimeout(scrollAttempt, 300); // Retry every 300ms
             } else {
-                console.warn(`Deep-linking: Element with ID "${slug}" not found.`);
-                // If the element doesn't exist (hidden/filtered or wrong URL), 
-                // we might want to redirect, but only if it's not a known static path
-                // For a one-page site, if it's on a dynamic root slug that doesn't exist, redirect to /
-                if (pathname !== '/' && !pathname.includes('/about') && !pathname.includes('/portfolio-pdf')) {
+                console.warn(`Deep-linking: Element with ID "${slug}" not found after ${maxAttempts} attempts.`);
+                if (pathname !== '/') {
+                    // Redirect to home if slug is invalid
                     router.push('/');
                 }
             }
-        }, 800); // Wait for works to render
+        };
 
-        return () => clearTimeout(scrollTimer);
+        // Initial delay to let the initial render finish
+        const initialTimer = setTimeout(scrollAttempt, 500);
+
+        return () => clearTimeout(initialTimer);
     }, [pathname, router]);
 
     return null; // This component handles side effects only

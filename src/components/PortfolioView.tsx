@@ -34,7 +34,7 @@ export default async function PortfolioView() {
   const bodyOfWorkSections = sortedBOWs.map(bow => {
     // Works belonging to this BOW that are not featured
     const bowWorks = otherWorks
-      .filter(w => w.BodyOfWork?.includes(bow.Name))
+      .filter(w => w.BodyOfWork && bow.Name && w.BodyOfWork.includes(bow.Name))
       .sort((a, b) => (a.SortNumber || 0) - (b.SortNumber || 0));
     
     // Group works by Series_Name
@@ -73,11 +73,13 @@ export default async function PortfolioView() {
       <DeepLinkHandler />
       
       {/* Render Featured Works first */}
-      {featuredWorks.map((work) => (
+      {featuredWorks.map((work, idx) => (
         <WorkSection
           key={work.id}
           work={work}
           id={work.work_id}
+          nextWorkId={idx < featuredWorks.length - 1 ? (featuredWorks[idx + 1].work_id || featuredWorks[idx + 1].id) : undefined}
+          prevWorkId={idx > 0 ? (featuredWorks[idx - 1].work_id || featuredWorks[idx - 1].id) : undefined}
         />
       ))}
 
@@ -96,11 +98,13 @@ export default async function PortfolioView() {
             }
 
             // Standalone works
-            return group.works.map((work) => (
+            return group.works.map((work, idx) => (
               <WorkSection
                 key={work.id}
                 work={work}
                 id={work.work_id}
+                nextWorkId={idx < group.works.length - 1 ? (group.works[idx + 1].work_id || group.works[idx + 1].id) : undefined}
+                prevWorkId={idx > 0 ? (group.works[idx - 1].work_id || group.works[idx - 1].id) : undefined}
               />
             ));
           })}

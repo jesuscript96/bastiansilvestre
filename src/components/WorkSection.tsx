@@ -90,8 +90,8 @@ export default function WorkSection({ work, id, nextWorkId, prevWorkId, isSerieP
                     primaryImage={primaryImage}
                     secondaryImages={secondaryImages}
                     title={work.Title}
-                    nextWorkUrl={nextWorkId ? `#work-${nextWorkId}` : '#'}
-                    prevWorkUrl={prevWorkId ? `#work-${prevWorkId}` : '#'}
+                    nextWorkUrl={nextWorkId ? `#${nextWorkId}` : '#'}
+                    prevWorkUrl={prevWorkId ? `#${prevWorkId}` : '#'}
                     showNavigation={!isSeriePart}
                 />
             </div>
