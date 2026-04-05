@@ -46,6 +46,7 @@ export interface DbWork {
     SortNumber?: number;
     Series_Name?: string;
     view_web?: boolean;
+    work_id?: string;
 }
 
 // Maps to the structure expected by components originally from Airtable
@@ -85,6 +86,7 @@ export interface MappedWork {
     Edition?: string;
     SortNumber?: number;
     Series_Name?: string;
+    work_id?: string;
 }
 
 const slugify = (text: string) => {
@@ -133,6 +135,7 @@ const mapWork = (record: DbWork): MappedWork => ({
     Edition: record.Edition,
     SortNumber: record.SortNumber,
     Series_Name: record.Series_Name,
+    work_id: record.work_id,
 });
 
 export const getCategories = async () => {

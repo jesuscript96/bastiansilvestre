@@ -87,6 +87,7 @@ export default function HorizontalSeries({ works, slug }: HorizontalSeriesProps)
                         <div className="w-full max-w-full">
                             <WorkSection
                                 work={work}
+                                id={work.work_id}
                                 nextWorkId={idx < works.length - 1 ? works[idx + 1].id : undefined}
                                 prevWorkId={idx > 0 ? works[idx - 1].id : undefined}
                                 isSeriePart={true}
