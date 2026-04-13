@@ -14,7 +14,7 @@ export default function DeepLinkHandler() {
         let slug = pathname.split('/').filter(Boolean).pop() || '';
         
         if (!slug || slug === '' || hasAttemptedScroll.current) return;
-        if (pathname.includes('/about') || pathname.includes('/portfolio-pdf')) return;
+        if (pathname.includes('/about') || pathname.includes('/portfolio-pdf') || pathname.includes('/showroom')) return;
 
         console.log(`DeepLinkHandler: detected slug "${slug}"`);
 

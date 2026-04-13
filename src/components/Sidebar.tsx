@@ -74,7 +74,8 @@ export default function Sidebar({ categories, bodyOfWorks }: SidebarProps) {
                     </nav>
 
                     <nav className="space-y-4">
-                        <Link href="/about" onClick={() => setIsOpen(false)} className="block text-sm uppercase hover:text-foreground/60 tracking-widest text-muted-foreground">About</Link>
+                        <Link href="/showroom" onClick={() => setIsOpen(false)} className={`block text-sm uppercase hover:text-foreground/60 tracking-widest ${pathname === '/showroom' ? 'text-foreground' : 'text-muted-foreground'}`}>Showroom</Link>
+                        <Link href="/about" onClick={() => setIsOpen(false)} className={`block text-sm uppercase hover:text-foreground/60 tracking-widest ${pathname === '/about' ? 'text-foreground' : 'text-muted-foreground'}`}>About</Link>
                     </nav>
 
                     {/* Mobile theme toggle */}
