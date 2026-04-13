@@ -110,7 +110,9 @@ export default function ShowroomWorkSection({ work, id, nextWorkId, prevWorkId, 
                 </div>
                 
                 <a 
-                    href={mailtoLink}
+                    href={work.payment_link || mailtoLink}
+                    target={work.payment_link ? "_blank" : undefined}
+                    rel={work.payment_link ? "noopener noreferrer" : undefined}
                     className="px-8 py-3 bg-foreground text-background text-xs uppercase tracking-[0.2em] hover:bg-foreground/80 transition-colors"
                 >
                     Acquire

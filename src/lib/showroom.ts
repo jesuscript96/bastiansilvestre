@@ -27,6 +27,7 @@ export interface ShowroomWork {
     work_id?: string;
     view_showroom?: boolean;
     work_price?: string;
+    payment_link?: string;
 }
 
 const mapShowroomWork = (record: any): ShowroomWork => ({
@@ -51,6 +52,7 @@ const mapShowroomWork = (record: any): ShowroomWork => ({
     work_id: record.work_id,
     view_showroom: record.view_showroom,
     work_price: record.work_price,
+    payment_link: record.payment_link,
 });
 
 export const getShowroomWorks = async () => {
