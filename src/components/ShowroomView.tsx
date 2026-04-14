@@ -1,7 +1,7 @@
 import { getShowroomWorks, ShowroomWork } from '@/lib/showroom';
 import { getBodyOfWorks, BodyOfWork } from '@/lib/supabase';
 import ShowroomWorkSection from '@/components/ShowroomWorkSection';
-import HorizontalSeries from '@/components/HorizontalSeries';
+import ShowroomHorizontalSeries from '@/components/ShowroomHorizontalSeries';
 import DeepLinkHandler from '@/components/DeepLinkHandler';
 
 export default async function ShowroomView() {
@@ -66,12 +66,10 @@ export default async function ShowroomView() {
         <div key={section.id} id={section.Slug}>
           {section.groups.map((group) => {
             if (group.type === 'series') {
-              // Note: HorizontalSeries uses the standard Work type from lib/supabase
-              // ShowroomWork is compatible for rendering purposes here
               return (
-                <HorizontalSeries
+                <ShowroomHorizontalSeries
                   key={group.id}
-                  works={group.works as any}
+                  works={group.works}
                   slug={group.slug || group.id}
                 />
               );
