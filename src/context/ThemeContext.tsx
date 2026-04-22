@@ -14,21 +14,18 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-    const [theme, setTheme] = useState<Theme>('dark');
+    const [theme, setTheme] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        const stored = localStorage.getItem(STORAGE_KEY) as Theme | null;
-        if (stored === 'light' || stored === 'dark') {
-            setTheme(stored);
-        }
+        setTheme('light');
         setMounted(true);
     }, []);
 
     useEffect(() => {
         if (!mounted) return;
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem(STORAGE_KEY, theme);
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem(STORAGE_KEY, 'light');
     }, [theme, mounted]);
 
     const toggleTheme = () => {

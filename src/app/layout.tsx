@@ -28,10 +28,8 @@ export const revalidate = 0;
 const themeInitScript = `
 (function(){
   try {
-    var t = localStorage.getItem('bs-theme');
-    if (t === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('bs-theme', 'light');
   } catch(e) {}
 })();
 `;
@@ -52,7 +50,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
