@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { useLayoutContext, WorkDetail } from '@/context/LayoutContext';
 import ImageGallery from '@/app/[category]/[series]/[work]/ImageGallery';
 import { ShowroomWork } from '@/lib/showroom';
@@ -79,7 +80,7 @@ export default function ShowroomWorkSection({ work, id, nextWorkId, prevWorkId, 
         .filter(img => img !== primaryImage)
         .slice(0, 3);
 
-    const mailtoLink = `mailto:bastian@studiosilvestre.com?subject=Acquire: ${encodeURIComponent(work.Title)}&body=I am interested in acquiring "${encodeURIComponent(work.Title)}" (${work.Year || 'N/A'}). Please provide more details.`;
+    const inquireHref = work.payment_link || `/showroom/inquire/${work.id}`;
 
     return (
         <section
@@ -109,14 +110,14 @@ export default function ShowroomWorkSection({ work, id, nextWorkId, prevWorkId, 
                     </div>
                 </div>
                 
-                <a 
-                    href={work.payment_link || mailtoLink}
+                <Link
+                    href={inquireHref}
                     target={work.payment_link ? "_blank" : undefined}
                     rel={work.payment_link ? "noopener noreferrer" : undefined}
                     className="px-8 py-3 bg-foreground text-background text-xs uppercase tracking-[0.2em] hover:bg-foreground/80 transition-colors"
                 >
                     Acquire
-                </a>
+                </Link>
             </div>
 
             {/* Mobile Info Overlay (Optional redundancy) */}

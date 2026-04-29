@@ -61,6 +61,16 @@ export const getShowroomWorks = async () => {
         .select('*')
         .eq('view_showroom', true)
         .order('SortNumber', { ascending: true });
-    
+
     return (data || []).map(mapShowroomWork);
+};
+
+export const getShowroomWorkById = async (id: string): Promise<ShowroomWork | null> => {
+    const { data } = await supabase
+        .from('Works')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    return data ? mapShowroomWork(data) : null;
 };
