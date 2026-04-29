@@ -25,15 +25,16 @@ export default function InquireForm({
         `I am interested in receiving more information about "${workTitle}". Please let me know about availability and any further details.`
     );
     const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('sending');
 
-        const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-        const ownerTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_OWNER!;
-        const clientTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CLIENT!;
-        const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+        const serviceId = 'service_88e02ym';
+        const ownerTemplateId = 'template_b3rw0gg';
+        const clientTemplateId = 'template_lnoaoaa';
+        const publicKey = 'I6I07HGv4V2wck1tU';
 
         const templateParams = {
             from_name: name,
@@ -53,7 +54,9 @@ export default function InquireForm({
                 emailjs.send(serviceId, clientTemplateId, templateParams, publicKey),
             ]);
             setStatus('success');
-        } catch {
+        } catch (err: any) {
+            console.error('EmailJS error:', err);
+            setErrorMessage(err?.text || err?.message || JSON.stringify(err) || 'Unknown error');
             setStatus('error');
         }
     };
@@ -128,7 +131,7 @@ export default function InquireForm({
 
                 {status === 'error' && (
                     <p className="text-sm text-red-500 font-mono">
-                        Something went wrong. Please try again or email us directly at bastian@studiosilvestre.com
+                        Error: {errorMessage || 'Unknown'}
                     </p>
                 )}
 
