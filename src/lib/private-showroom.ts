@@ -19,7 +19,13 @@ export interface AdminWork {
     year?: string;
     Name_Body_from_body?: string;
     SortNumber?: number;
+    view_web?: boolean;
+    view_showroom?: boolean;
+    BODY?: string;
+    Series_Name?: string;
+    work_id?: string;
 }
+
 
 const mapShowroomWork = (record: any): ShowroomWork => ({
     id: record.id,
@@ -134,9 +140,11 @@ export const getKeyWorkCounts = async (keyIds: string[]): Promise<Record<string,
 };
 
 export const getAllWorksForAdmin = async (): Promise<AdminWork[]> => {
+    // We select all columns to ensure no field-level filtering or missing data
     const { data } = await supabase
         .from('Works')
-        .select('id, Title, Primary_Image, year, Name_Body_from_body, SortNumber')
+        .select('*')
         .order('SortNumber', { ascending: true });
     return data || [];
 };
+

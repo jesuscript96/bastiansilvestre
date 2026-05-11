@@ -49,6 +49,17 @@ export interface DbWork {
     work_id?: string;
 }
 
+export interface DbAboutPage {
+    id: number;
+    title: string;
+    bio: string;
+    image_url: string;
+    email: string;
+    instagram_url: string;
+    statement_title: string;
+    statement: string;
+}
+
 // Maps to the structure expected by components originally from Airtable
 export interface MappedCategory {
     id: string;
@@ -87,6 +98,17 @@ export interface MappedWork {
     SortNumber?: number;
     Series_Name?: string;
     work_id?: string;
+}
+
+export interface MappedAboutPage {
+    id: number;
+    title: string;
+    bioParagraphs: string[];
+    image_url: string;
+    email: string;
+    instagram_url: string;
+    statement_title: string;
+    statementParagraphs: string[];
 }
 
 const slugify = (text: string) => {
@@ -136,6 +158,17 @@ const mapWork = (record: DbWork): MappedWork => ({
     SortNumber: record.SortNumber,
     Series_Name: record.Series_Name,
     work_id: record.work_id,
+});
+
+const mapAboutPage = (record: DbAboutPage): MappedAboutPage => ({
+    id: record.id,
+    title: record.title || '',
+    bioParagraphs: record.bio ? record.bio.split('\n').filter(p => p.trim() !== '') : [],
+    image_url: record.image_url || '',
+    email: record.email || '',
+    instagram_url: record.instagram_url || '',
+    statement_title: record.statement_title || '',
+    statementParagraphs: record.statement ? record.statement.split('\n').filter(p => p.trim() !== '') : [],
 });
 
 export const getCategories = async () => {
@@ -189,4 +222,10 @@ export const getWorkBySlug = async () => {
     return null; // Left exactly as previous implementation
 };
 
-export type { MappedWork as Work, MappedBodyOfWork as BodyOfWork, MappedCategory as Category };
+export const getAboutPage = async () => {
+    const { data } = await supabase.from('about_page').select('*').eq('id', 1).single();
+    if (!data) return null;
+    return mapAboutPage(data);
+};
+
+export type { MappedWork as Work, MappedBodyOfWork as BodyOfWork, MappedCategory as Category, MappedAboutPage as AboutPage };

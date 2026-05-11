@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getWorksForKey } from '@/lib/private-showroom';
+import { getWorksForKeyServer } from '@/lib/private-showroom-server';
 import { getBodyOfWorks, BodyOfWork } from '@/lib/supabase';
+
 import { ShowroomWork } from '@/lib/showroom';
 import PrivateShowroomView from '@/components/PrivateShowroomView';
 
@@ -26,15 +27,43 @@ export default function PrivateShowroomPage() {
         setKeyName(name || '');
 
         Promise.all([
-            getWorksForKey(keyId),
+            getWorksForKeyServer(keyId),
             getBodyOfWorks(),
         ]).then(([fetchedWorks, fetchedBOWs]) => {
-            setWorks(fetchedWorks);
+            // Map raw records to ShowroomWork structure if needed
+            // The server action returns raw records, we need to map them
+            const mappedWorks = fetchedWorks.map((record: any) => ({
+                id: record.id,
+                Title: record.Title || 'Untitled',
+                BodyOfWork_Name: record.Name_Body_from_body || '',
+                Year: record.year,
+                Material: record.material,
+                Size: record['Size cm'],
+                Size_inches: record.Size_inches,
+                Collection: record.collection,
+                Status: record.Estado,
+                Primary_Image: record.Primary_Image,
+                Detail_Image: record.Detail_Image,
+                Detail_Image_2: record.Detail_Image_2,
+                Context_Image: record.Context_Image,
+                Feature: record.Feature,
+                BodyOfWork: record.BODY ? record.BODY.split(',').map((s: string) => s.trim()) : undefined,
+                Edition: record.Edition,
+                SortNumber: record.SortNumber,
+                Series_Name: record.Series_Name,
+                work_id: record.work_id,
+                view_showroom: record.view_showroom,
+                work_price: record.work_price,
+                payment_link: record.payment_link,
+            }));
+
+            setWorks(mappedWorks);
             setBodyOfWorks(fetchedBOWs);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
         });
+
     }, [router]);
 
     if (loading) {

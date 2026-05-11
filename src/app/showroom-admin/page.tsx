@@ -13,6 +13,8 @@ import {
     PrivateKey,
     AdminWork,
 } from '@/lib/private-showroom';
+import { getAllWorksForAdminServer } from '@/lib/private-showroom-server';
+
 
 const ADMIN_KEY = process.env.NEXT_PUBLIC_SHOWROOM_ADMIN_KEY || '';
 
@@ -97,8 +99,9 @@ function AdminPanel() {
         setLoading(true);
         const [fetchedKeys, fetchedWorks] = await Promise.all([
             getAllPrivateKeys(),
-            getAllWorksForAdmin(),
+            getAllWorksForAdminServer(),
         ]);
+
         setKeys(fetchedKeys);
         setAllWorks(fetchedWorks);
         const counts = await getKeyWorkCounts(fetchedKeys.map(k => k.id));
