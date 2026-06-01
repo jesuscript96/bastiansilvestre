@@ -8,7 +8,7 @@ import { getCategories, getBodyOfWorks, Category, BodyOfWork } from '@/lib/supab
 
 export const metadata: Metadata = {
   title: 'Bastian Silvestre',
-  description: 'Minimalist Artist Portfolio',
+  description: 'Artist Portfolio',
   viewport: {
     width: 'device-width',
     initialScale: 1,
