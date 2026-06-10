@@ -13,10 +13,7 @@ import {
     PrivateKey,
     AdminWork,
 } from '@/lib/private-showroom';
-import { getAllWorksForAdminServer } from '@/lib/private-showroom-server';
-
-
-const ADMIN_KEY = process.env.NEXT_PUBLIC_SHOWROOM_ADMIN_KEY || '';
+import { getAllWorksForAdminServer, verifyAdminKey } from '@/lib/private-showroom-server';
 
 function generateKey(): string {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -28,16 +25,14 @@ export default function ShowroomAdminPage() {
     const [adminInput, setAdminInput] = useState('');
     const [adminError, setAdminError] = useState('');
 
-    const handleAdminLogin = (e: React.FormEvent) => {
+    const handleAdminLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!ADMIN_KEY) {
-            setAdminError('Admin key not configured. Set NEXT_PUBLIC_SHOWROOM_ADMIN_KEY in .env.local');
-            return;
-        }
-        if (adminInput === ADMIN_KEY) {
+        setAdminError('');
+        const isValid = await verifyAdminKey(adminInput);
+        if (isValid) {
             setAuthenticated(true);
         } else {
-            setAdminError('Invalid admin key.');
+            setAdminError('Invalid admin key or admin key not configured on server.');
         }
     };
 

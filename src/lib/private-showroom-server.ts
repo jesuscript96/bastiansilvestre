@@ -33,3 +33,15 @@ export async function getAllWorksForAdminServer() {
         .order('SortNumber', { ascending: true });
     return data || [];
 }
+
+export async function verifyAdminKey(inputKey: string): Promise<boolean> {
+    const adminKey = process.env.SHOWROOM_ADMIN_KEY || process.env.NEXT_PUBLIC_SHOWROOM_ADMIN_KEY || '';
+    if (!adminKey) return false;
+
+    // Remove any surrounding quotes that might have been added in env files
+    const cleanAdminKey = adminKey.replace(/^["']|["']$/g, '');
+    const cleanInputKey = inputKey.replace(/^["']|["']$/g, '');
+
+    return cleanInputKey === cleanAdminKey;
+}
+
